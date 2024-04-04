@@ -22,7 +22,7 @@ export const StandardInputDescription = ({ value, ...props }) => {
       numberOfLines={20}
       value={value}
       {...props}
-      placeholder="añade aquí una descripción..."
+      placeholder="Add here a description..."
       style={[styles.CocktailDescription, styles.textInput, { height: 150 }]}
     />
   );

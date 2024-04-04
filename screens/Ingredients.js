@@ -9,9 +9,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
+import { AppContext } from "../src/context/AppContext";
 
 import wood from "../assets/media/wood.jpg";
 import FooterApp from "./Footer";
@@ -31,21 +32,6 @@ import DescriptionModal from "../src/components/DescriptionModal";
 
 const { width, height } = Dimensions.get("screen");
 
-export const useIngredients = (initialState = []) => {
-  const [ingredients, setIngredients] = useState(initialState);
-
-  useEffect(() => {
-    getCachedData("ingredients").then((data) => {
-      if (data) {
-        setIngredients(JSON.parse(data));
-      }
-    });
-    //removeCachedData("ingredients");
-  }, []);
-
-  return [ingredients, setIngredients];
-};
-
 const Ingredients = () => {
   const [pressed, setPressed] = useState({
     alcohol: true,
@@ -54,7 +40,7 @@ const Ingredients = () => {
     ice: false,
     shake: false,
   });
-  const [ingredients, setIngredients] = useIngredients();
+
   const [typeIngredientSelected, setTypeIngredientSelected] =
     useState("alcohol");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -73,6 +59,8 @@ const Ingredients = () => {
     return <ActivityIndicator />;
   }
 
+  const isCocktailIngredient = true;
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -86,8 +74,8 @@ const Ingredients = () => {
               source={mantel}
               style={{
                 resizeMode: "contain",
-                width: 400,
-                height: 400,
+                width: width,
+                height: height,
                 opacity: 0.2,
               }}
             />
@@ -98,7 +86,6 @@ const Ingredients = () => {
             setTypeIngredientSelected={setTypeIngredientSelected}
           />
           <IngredientList
-            ingredients={ingredients}
             pressed={pressed}
             setIsModalOpen={setIsModalOpen}
             setIngredientSelected={setIngredientSelected}
@@ -108,6 +95,7 @@ const Ingredients = () => {
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
             ingredientSelected={ingredientSelected}
+            isCocktailIngredient={isCocktailIngredient}
           />
           <AddSpice typeIngredientSelected={typeIngredientSelected} />
           <FooterApp />
@@ -177,30 +165,32 @@ const Header = ({ pressed, setPressed, setTypeIngredientSelected }) => {
 };
 
 const IngredientList = ({
-  ingredients,
   pressed,
   setIsModalOpen,
   setIngredientSelected,
   typeIngredientSelected,
-}) => (
-  <View style={styles.IngredientList}>
-    <ScrollView>
-      {ingredients.map((ingredient, i) => {
-        if (ingredient.ingredientType === typeIngredientSelected) {
-          return (
-            <IngredientItem
-              ingredient={ingredient}
-              key={i}
-              pressed={pressed}
-              setIsModalOpen={setIsModalOpen}
-              setIngredientSelected={setIngredientSelected}
-            />
-          );
-        }
-      })}
-    </ScrollView>
-  </View>
-);
+}) => {
+  const {ingredients} = useContext(AppContext);
+  return (
+    <View style={styles.IngredientList}>
+      <ScrollView>
+        {ingredients.map((ingredient, i) => {
+          if (ingredient.ingredientType === typeIngredientSelected) {
+            return (
+              <IngredientItem
+                ingredient={ingredient}
+                key={i}
+                pressed={pressed}
+                setIsModalOpen={setIsModalOpen}
+                setIngredientSelected={setIngredientSelected}
+              />
+            );
+          }
+        })}
+      </ScrollView>
+    </View>
+  );
+};
 
 const IngredientItem = ({
   ingredient,
@@ -259,7 +249,7 @@ const styles = StyleSheet.create({
     width: width,
     height: height,
     alignItems: "center",
-  },
+  },  
   Header: {
     marginTop: 50,
     height: 120,

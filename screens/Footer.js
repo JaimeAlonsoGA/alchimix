@@ -62,6 +62,6 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     width: 60,
     height: 60,
-    marginBottom: 10,
+    marginBottom: 80,
   },
 });

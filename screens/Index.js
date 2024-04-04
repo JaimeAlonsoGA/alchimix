@@ -15,7 +15,7 @@ import FooterApp from "./Footer";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
 import { getCachedData, removeCachedData } from "../saveData";
-import { CocktailContext } from "../src/context/CocktailContext";
+import { AppContext } from "../src/context/AppContext";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -51,7 +51,7 @@ const Index = () => {
 };
 
 const CocktailList = ({ navigation }) => {
-  const {cocktails} = useContext(CocktailContext) 
+  const {cocktails} = useContext(AppContext) 
   return(
   <ScrollView showsVerticalScrollIndicator={false}>
     {cocktails.map((cocktail, i) => (

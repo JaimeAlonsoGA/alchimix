@@ -251,6 +251,7 @@ const AddIngredientList = ({
   setCocktailIngredient,
   scrollToItem,
 }) => {
+  const isCocktailIngredient = true;
   return (
     <View>
       <ImageBackground source={pergamino} style={styles.AddIngredient}>
@@ -263,6 +264,7 @@ const AddIngredientList = ({
             selectedType={selectedType}
             setCocktailIngredient={setCocktailIngredient}
             scrollToItem={scrollToItem}
+            isCocktailIngredient={isCocktailIngredient}
           />
         )}
         <IngredientsMap
@@ -380,7 +382,7 @@ const IngredientContent = ({
             {cocktailIngredient.ingredientCharacteristics.ingredientName}
           </Text>
         </Pressable>
-        <DeleteIngredientButton setCocktailIngredient={setCocktailIngredient} />
+        <DeleteIngredientButton setCocktailIngredient={setCocktailIngredient} cocktailIngredient={cocktailIngredient}/>
       </View>
     </>
   );
@@ -426,7 +428,7 @@ const DeleteIngredientButton = ({
           if (index !== -1) {
             const newCocktailIngredients = [...prevCocktailIngredients];
             newCocktailIngredients.splice(index, 1);
-            return newCocktailIngredients;
+            return [...newCocktailIngredients];
           }
           return prevCocktailIngredients;
         });
@@ -622,7 +624,7 @@ const styles = StyleSheet.create({
     width: width / 1.6,
     height: 50,
     backgroundColor: "rgba(255, 21, 21, 0.7)",
-    borderWidth: 4,
+    borderWidth: 2,
     borderColor: "black",
     borderRadius: 10,
     justifyContent: "center",

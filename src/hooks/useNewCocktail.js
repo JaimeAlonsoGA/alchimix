@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { getCachedData, setCachedData } from "../../saveData";
 import plus from "../../assets/media/plus.png";
 import uuid from "react-native-uuid";
-import { CocktailContext } from "../context/CocktailContext";
+import { AppContext } from "../context/AppContext";
 
 export const useNewCocktail = (
   initialId = null,
@@ -21,7 +21,7 @@ export const useNewCocktail = (
   const [cocktailIngredients, setCocktailIngredient] =
     useState(initialIngredients);
 
-  const { cocktails, setCocktails } = useContext(CocktailContext);
+  const { cocktails, setCocktails } = useContext(AppContext);
 
   const saveCurrentCocktail = async () => {
     const cocktail = {
@@ -52,11 +52,17 @@ export const useNewCocktail = (
   };
 
   const deleteCurrentCocktail = async () => {
-    await setCachedData(
-      "cocktails",
-      JSON.stringify([...cocktails.filter((c) => c.id !== index)])
-    );
-    console.log("cocktail deleted");
+    const index = cocktails.findIndex((item) => item.id === id);
+
+    if (index !== -1) {
+      const newCocktails = [...cocktails];
+      newCocktails.splice(index, 1);
+      await setCachedData("cocktails", JSON.stringify(newCocktails));
+      setCocktails(newCocktails);
+      console.log("ingredient deleted");
+    } else {
+      console.log("ingredient not found");
+    }
   };
 
   return {

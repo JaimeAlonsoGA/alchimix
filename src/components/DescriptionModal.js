@@ -20,6 +20,7 @@ const DescriptionModal = ({
   isModalOpen,
   setIsModalOpen,
   ingredientSelected,
+  isCocktailIngredient,
 }) => {
   const [fontsLoaded, fontError] = useFonts({
     MedievalSharp: require("../../assets/fonts/MedievalSharp.ttf"),
@@ -46,10 +47,12 @@ const DescriptionModal = ({
       >
         <View style={styles.DescriptionModal}>
           <View style={styles.modalContent}>
-            <Edit
-              ingredientSelected={ingredientSelected}
-              setIsModalOpen={setIsModalOpen}
-            />
+            {isCocktailIngredient && (
+              <Edit
+                ingredientSelected={ingredientSelected}
+                setIsModalOpen={setIsModalOpen}
+              />
+            )}
             <ScrollView showsVerticalScrollIndicator={false}>
               <Text style={[styles.text, { color: "red", marginTop: 40 }]}>
                 {ingredientSelected.ingredientName}

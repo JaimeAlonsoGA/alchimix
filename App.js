@@ -7,13 +7,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React, { useEffect, useState } from "react";
 import { getCachedData } from "./saveData";
-import { CocktailContextProvider } from "./src/context/CocktailContext";
+import { AppContextProvider } from "./src/context/AppContext";
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <CocktailContextProvider>
+    <AppContextProvider>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Index" component={Index} />
@@ -23,6 +23,6 @@ export default function App() {
           <Stack.Screen name="Cocktail" component={Cocktail} />
         </Stack.Navigator>
       </NavigationContainer>
-    </CocktailContextProvider>
+    </AppContextProvider>
   );
 }

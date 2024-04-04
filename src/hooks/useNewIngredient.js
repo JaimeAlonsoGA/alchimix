@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { getCachedData, setCachedData } from "../../saveData";
 import uuid from "react-native-uuid";
+import { AppContext } from "../context/AppContext";
 
 export const useNewIngredient = (
   initialId = null,
@@ -17,6 +18,8 @@ export const useNewIngredient = (
   const [alcoholStrength, setAlcoholStrength] = useState(initialStrength);
   const [description, setDescription] = useState(initialDescription);
 
+  const { ingredients, setIngredients } = useContext(AppContext);
+
   const saveCurrentIngredient = async () => {
     const ingredient = {
       ingredientType,
@@ -26,18 +29,13 @@ export const useNewIngredient = (
       id,
     };
 
-    const currentIngredients = await getCachedData("ingredients");
-    //conseguir datos de cache
-    const parsedIngredients = JSON.parse(currentIngredients) || [];
-    //convertir datos de string a json: Comprobar si el id existe, si existe reemplazarlo
-    const index = parsedIngredients.findIndex(
-      (item) => item.id === ingredient.id
-    );
+    const index = ingredients.findIndex((item) => item.id === ingredient.id);
+    const tempIngredients = ingredients;
 
     if (index !== -1) {
-      parsedIngredients[index] = ingredient;
+      tempIngredients[index] = ingredient;
     } else {
-      parsedIngredients.push(ingredient);
+      tempIngredients.push(ingredient);
     }
 
     // const ingredients = parsedIngredients
@@ -45,27 +43,23 @@ export const useNewIngredient = (
     //   : [ingredient];
 
     //si hay datos, añadir el nuevo coche, si no, crear array con el nuevo coche
-    await setCachedData("ingredients", JSON.stringify(parsedIngredients));
+    await setCachedData("ingredients", JSON.stringify(tempIngredients));
+    setIngredients([...tempIngredients]);
     //guardar datos en cache
   };
 
   const deleteCurrentIngredient = async () => {
-    // Get the current ingredients from the cache
-    const currentIngredients = await getCachedData("ingredients");
-    const parsedIngredients = JSON.parse(currentIngredients) || [];
+    const index = ingredients.findIndex((item) => item.id === id);
 
-    // Find the index of the ingredient to delete
-    const index = parsedIngredients.findIndex((item) => item.id === id);
-
-    // If the ingredient is found, remove it from the array
     if (index !== -1) {
-      parsedIngredients.splice(index, 1);
+      const newIngredients = [...ingredients];
+      newIngredients.splice(index, 1);
+      await setCachedData("ingredients", JSON.stringify(newIngredients));
+      setIngredients(newIngredients);
+      console.log("ingredient deleted");
+    } else {
+      console.log("ingredient not found");
     }
-
-    // Save the updated ingredients back to the cache
-    await setCachedData("ingredients", JSON.stringify(parsedIngredients));
-
-    console.log("Ingredient deleted");
   };
 
   return {

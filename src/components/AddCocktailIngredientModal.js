@@ -8,15 +8,15 @@ import {
   Text,
   View,
 } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { useFonts } from "expo-font";
-import { useIngredients } from "../../screens/Ingredients";
 
 import ice from "../../assets/media/ice.png";
 import shake from "../../assets/media/shake.png";
 import alcoholType from "../../assets/media/alcoholType.png";
 import extraType from "../../assets/media/extraType.png";
 import juiceType from "../../assets/media/juiceType.png";
+import { AppContext } from "../context/AppContext";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -37,7 +37,6 @@ const AddCocktailIngredientModal = ({
   selectedType,
   scrollToItem,
 }) => {
-  const [ingredients, setIngredients] = useIngredients();
   const [fontsLoaded, fontError] = useFonts({
     MedievalSharp: require("../../assets/fonts/MedievalSharp.ttf"),
   });
@@ -70,7 +69,6 @@ const AddCocktailIngredientModal = ({
             <Ingredients
               setCocktailIngredient={setCocktailIngredient}
               setModalOpen={setModalOpen}
-              ingredients={ingredients}
               handlePress={handlePress}
               pressed={pressed}
               selectedType={selectedType}
@@ -89,29 +87,31 @@ const Ingredients = ({
   setModalOpen,
   handlePress,
   selectedType,
-  ingredients,
   scrollToItem,
-}) => (
-  <View style={styles.SpiceMap}>
-    <ScrollView>
-      {ingredients
-        .filter((ingredient) => ingredient.ingredientType === selectedType)
-        .map((ingredient, i) => {
-          return (
-            <IngredientItem
-              key={i}
-              setCocktailIngredient={setCocktailIngredient}
-              ingredient={ingredient}
-              setModalOpen={setModalOpen}
-              handlePress={handlePress}
-              pressed={pressed}
-              scrollToItem={scrollToItem}
-            />
-          );
-        })}
-    </ScrollView>
-  </View>
-);
+}) => {
+  const {ingredients} = useContext(AppContext);
+  return (
+    <View style={styles.SpiceMap}>
+      <ScrollView>
+        {ingredients
+          .filter((ingredient) => ingredient.ingredientType === selectedType)
+          .map((ingredient, i) => {
+            return (
+              <IngredientItem
+                key={i}
+                setCocktailIngredient={setCocktailIngredient}
+                ingredient={ingredient}
+                setModalOpen={setModalOpen}
+                handlePress={handlePress}
+                pressed={pressed}
+                scrollToItem={scrollToItem}
+              />
+            );
+          })}
+      </ScrollView>
+    </View>
+  );
+};
 
 const IngredientItem = ({
   setCocktailIngredient,
