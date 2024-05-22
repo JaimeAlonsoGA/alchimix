@@ -3,6 +3,7 @@ import {
   Image,
   Pressable,
   StyleSheet,
+  ScrollView,
   Text,
   View,
 } from "react-native";
