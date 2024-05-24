@@ -7,11 +7,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { AppContextProvider } from "./src/context/AppContext";
+import { SafeAreaView } from "react-native";
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
+    <SafeAreaView style={{ flex: 1 }}>
       <AppContextProvider>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -23,5 +25,6 @@ export default function App() {
           </Stack.Navigator>
         </NavigationContainer>
       </AppContextProvider>
+    </SafeAreaView>
   );
 }

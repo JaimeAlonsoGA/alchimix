@@ -199,12 +199,13 @@ const DeleteButton = ({ deleteCurrentIngredient }) => {
   );
 };
 
-const AddCoctelImage = ({ initialState = plus, setGlass }) => {
-  const [source, setSource] = useState(initialState);
+const AddCoctelImage = ({ setGlass }) => {
+  const [source, setSource] = useState("Glass");
   return (
     <View style={styles.ImageContainer}>
       <View style={styles.AddHeader}>
         <Image source={source} style={styles.Image} />
+        {source === "Glass" && <Text style={styles.glassText}>Choose a glass</Text>}
       </View>
       <View style={styles.CoctelImage}>
         <CoctelImages setGlass={setGlass} setSource={setSource} />
@@ -382,7 +383,7 @@ const IngredientContent = ({
             {cocktailIngredient.ingredientCharacteristics.ingredientName}
           </Text>
         </Pressable>
-        <DeleteIngredientButton setCocktailIngredient={setCocktailIngredient} cocktailIngredient={cocktailIngredient}/>
+        <DeleteIngredientButton setCocktailIngredient={setCocktailIngredient} cocktailIngredient={cocktailIngredient} />
       </View>
     </>
   );
@@ -505,12 +506,13 @@ const styles = StyleSheet.create({
     height: height,
   },
   backgroundColor: {
-    backgroundColor: "rgba(92, 65, 50, 0.8)",
+    backgroundColor: "rgba(92, 65, 50, 0.6)",
     width: width,
     height: height,
     alignItems: "center",
   },
   ImageContainer: {
+    borderRadius: 20,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -640,5 +642,11 @@ const styles = StyleSheet.create({
     resizeMode: "center",
     width: 500,
     height: 500,
+  },
+  glassText: {
+    color: "white",
+    fontSize: 15,
+    textAlign: "center",
+    fontFamily: "MedievalSharp",
   },
 });

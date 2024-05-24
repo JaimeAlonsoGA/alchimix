@@ -48,28 +48,29 @@ const Cocktail = ({ route }) => {
               </View>
               <EditCocktail cocktail={cocktail} />
             </View>
-            <ImageBackground
-              source={pergamino}
-              style={styles.IngredientsContainer}
-            >
-              <Text style={styles.text}>{cocktail.cocktailName}</Text>
-              <View style={styles.description}>
-                <Text style={styles.descriptionText}>
-                  {cocktail.description}
-                </Text>
-              </View>
-              <SeeCocktailIngredientList
-                ingredients={cocktail.cocktailIngredients}
-                setIngredientSelected={setIngredientSelected}
-                setIsModalOpen={setIsModalOpen}
-                // quantities={quantities}
-              />
-              <DescriptionModal
-                isModalOpen={isModalOpen}
-                setIsModalOpen={setIsModalOpen}
-                ingredientSelected={ingredientSelected}
-              />
-            </ImageBackground>
+            <View style={{ borderRadius: 20, overflow: 'hidden' }}>
+              <ImageBackground
+                source={pergamino}
+                style={{ flex: 1 }}
+              >
+                <Text style={styles.text}>{cocktail.cocktailName}</Text>
+                <View style={styles.description}>
+                  <Text style={styles.descriptionText}>
+                    {cocktail.description}
+                  </Text>
+                </View>
+                <SeeCocktailIngredientList
+                  ingredients={cocktail.cocktailIngredients}
+                  setIngredientSelected={setIngredientSelected}
+                  setIsModalOpen={setIsModalOpen}
+                />
+                <DescriptionModal
+                  isModalOpen={isModalOpen}
+                  setIsModalOpen={setIsModalOpen}
+                  ingredientSelected={ingredientSelected}
+                />
+              </ImageBackground>
+            </View>
           </ScrollView>
         </View>
       </ImageBackground>
@@ -176,7 +177,7 @@ const styles = StyleSheet.create({
     height: height,
   },
   backgroundColor: {
-    backgroundColor: "rgba(92, 65, 50, 0.8)",
+    backgroundColor: "rgba(92, 65, 50, 0.6)",
     width: width,
     height: height,
     alignItems: "center",
@@ -190,6 +191,7 @@ const styles = StyleSheet.create({
     fontFamily: "MedievalSharp",
   },
   cocktailItem: {
+    borderRadius: 20,
     width: 160,
     height: 160,
     backgroundColor: "rgba(0, 255, 133, 0.19)",
@@ -206,12 +208,6 @@ const styles = StyleSheet.create({
     width: 60,
     height: 120,
     position: "absolute",
-  },
-  IngredientsContainer: {
-    // borderRadius: 25,
-    width: width / 1.1,
-    // height: height - 380,
-    // backgroundColor: "rgba(161, 152, 152, 0.9)",
   },
   IngredientText: {
     // marginTop: 6,
@@ -247,7 +243,7 @@ const styles = StyleSheet.create({
   Header: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 40,
+    marginTop: '5%',
   },
   EditImage: {
     resizeMode: "contain",

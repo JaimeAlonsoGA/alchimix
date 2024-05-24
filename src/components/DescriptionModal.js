@@ -99,7 +99,7 @@ const Edit = ({ ingredientSelected, setIsModalOpen }) => {
 const CloseButton = ({ setIsModalOpen }) => (
   <TouchableOpacity onPress={() => setIsModalOpen(false)}>
     <View style={styles.closeButton}>
-      <Text style={[styles.text, { color: "white" }]}>BACK</Text>
+      <Text style={[styles.textClose, { color: "white" }]}>go back</Text>
     </View>
   </TouchableOpacity>
 );
@@ -129,9 +129,15 @@ const styles = StyleSheet.create({
     margin: 2,
     borderWidth: 2,
     borderColor: "#eeb51e",
-    backgroundColor: "rgba(255, 21, 21, 0.7)",
-    borderRadius: 5,
+    backgroundColor: "rgba(255, 21, 21, 0.9)",
+    borderRadius: 100,
     padding: 2,
+  },
+  textClose: {
+    padding: 10,
+    fontSize: 15,
+    textAlign: "center",
+    fontFamily: "MedievalSharp",
   },
   text: {
     fontSize: 30,
