@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import React from "react";
@@ -38,39 +39,43 @@ const DescriptionModal = ({
   console.log(ingredientSelected);
 
   return (
-    <View>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isModalOpen}
-        onRequestClose={!isModalOpen}
-      >
-        <View style={styles.DescriptionModal}>
-          <View style={styles.modalContent}>
-            {isCocktailIngredient && (
-              <Edit
-                ingredientSelected={ingredientSelected}
-                setIsModalOpen={setIsModalOpen}
-              />
-            )}
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <Text style={[styles.text, { color: "red", marginTop: 40 }]}>
-                {ingredientSelected.ingredientName}
-              </Text>
-              {ingredientSelected.ingredientType === "alcohol" && (
-                <Text style={styles.alcoholStrength}>
-                  [{ingredientSelected.alcoholStrength} %]
-                </Text>
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={isModalOpen}
+      onRequestClose={() => {
+        setIsModalOpen(false);
+      }}
+    >
+      <TouchableWithoutFeedback onPress={() => setIsModalOpen(false)}>
+        <View style={styles.modalOverlay}>
+          <TouchableWithoutFeedback>
+            <View style={styles.modalContent}>
+              {isCocktailIngredient && (
+                <Edit
+                  ingredientSelected={ingredientSelected}
+                  setIsModalOpen={setIsModalOpen}
+                />
               )}
-              <Text style={styles.textText}>
-                {ingredientSelected.description}
-              </Text>
-            </ScrollView>
-            <CloseButton setIsModalOpen={setIsModalOpen} />
-          </View>
+              <ScrollView showsVerticalScrollIndicator={false}>
+                <Text style={[styles.text, { color: "red" }]}>
+                  {ingredientSelected.ingredientName}
+                </Text>
+                {ingredientSelected.ingredientType === "alcohol" && (
+                  <Text style={styles.alcoholStrength}>
+                    [{ingredientSelected.alcoholStrength} %]
+                  </Text>
+                )}
+                <Text style={styles.textText}>
+                  {ingredientSelected.description}
+                </Text>
+              </ScrollView>
+              {/* <CloseButton setIsModalOpen={setIsModalOpen} /> */}
+            </View>
+          </TouchableWithoutFeedback>
         </View>
-      </Modal>
-    </View>
+      </TouchableWithoutFeedback>
+    </Modal>
   );
 };
 
@@ -99,7 +104,7 @@ const Edit = ({ ingredientSelected, setIsModalOpen }) => {
 const CloseButton = ({ setIsModalOpen }) => (
   <TouchableOpacity onPress={() => setIsModalOpen(false)}>
     <View style={styles.closeButton}>
-      <Text style={[styles.textClose, { color: "white" }]}>go back</Text>
+      <Text style={[styles.textClose, { color: "white" }]}>BACK</Text>
     </View>
   </TouchableOpacity>
 );
@@ -107,31 +112,38 @@ const CloseButton = ({ setIsModalOpen }) => (
 export default DescriptionModal;
 
 const styles = StyleSheet.create({
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: "rgba(90, 60, 40, 0.6)",
+  },
   DescriptionModal: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(92, 65, 50, 0.5)",
   },
   modalContent: {
     marginTop: 20,
-    backgroundColor: "rgba(240, 243, 255, 1)",
+    backgroundColor: "rgba(190, 190, 190, 1)",
     width: width / 1.2,
-    height: 320,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 200,
+    borderRadius: 140,
     padding: 18,
     overflow: "hidden",
     opacity: 0.8,
   },
   closeButton: {
-    margin: 2,
-    borderWidth: 2,
-    borderColor: "#eeb51e",
-    backgroundColor: "rgba(255, 21, 21, 0.9)",
-    borderRadius: 100,
-    padding: 2,
+    backgroundColor: "rgba(161, 152, 152, 0.5)",
+    height: 60,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    fontSize: 20,
+    fontFamily: "MedievalSharp",
+    color: "white",
   },
   textClose: {
     padding: 10,
@@ -152,13 +164,13 @@ const styles = StyleSheet.create({
   },
   edit: {
     resizeMode: "contain",
-    width: 60,
-    height: 60,
+    width: 55,
+    height: 55,
   },
   editContainer: {
     alignItems: "center",
     justifyContent: "center",
-    height: 60,
+    height: '20%',
   },
   alcoholStrength: {
     marginTop: 10,

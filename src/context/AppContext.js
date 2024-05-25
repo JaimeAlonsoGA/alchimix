@@ -6,6 +6,12 @@ export const AppContext = createContext();
 export const AppContextProvider = ({ children }) => {
   const [cocktails, setCocktails] = useState([]);
   const [ingredients, setIngredients] = useState([]);
+  const [currentScreen, setCurrentScreen] = useState("");
+
+  useEffect(() => {
+    console.log(currentScreen);
+  }
+    , [currentScreen]);
 
   useEffect(() => {
     getCachedData("cocktails").then((data) => {
@@ -34,7 +40,7 @@ export const AppContextProvider = ({ children }) => {
   }, [ingredients]);
 
   return (
-    <AppContext.Provider value={{ cocktails, setCocktails, ingredients, setIngredients }}>
+    <AppContext.Provider value={{ cocktails, setCocktails, ingredients, setIngredients, currentScreen, setCurrentScreen }}>
       {children}
     </AppContext.Provider>
   );

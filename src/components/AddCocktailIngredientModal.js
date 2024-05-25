@@ -1,6 +1,7 @@
 import {
   Dimensions,
   Image,
+  ImageBackground,
   Modal,
   Pressable,
   ScrollView,
@@ -8,7 +9,7 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useFonts } from "expo-font";
 
 import ice from "../../assets/media/ice.png";
@@ -17,10 +18,28 @@ import alcoholType from "../../assets/media/alcoholType.png";
 import extraType from "../../assets/media/extraType.png";
 import juiceType from "../../assets/media/juiceType.png";
 import { AppContext } from "../context/AppContext";
+import wood from "../../assets/media/wood.jpg";
 
 const { width, height } = Dimensions.get("screen");
 
-// const ingredientTypeLogo = {
+// const ingredientTypeLogo = (selectedType) => {
+//   switch (selectedType) {
+//     case "ice":
+//       return ice;
+//     case "shake":
+//       return shake;
+//     case "alcohol":
+//       return alcoholType;
+//     case "extra":
+//       return extraType;
+//     case "juice":
+//       return juiceType;
+//     default:
+//       return null;
+//   }
+// };
+
+// const ingredientTypeIcon = {
 //   ice,
 //   shake,
 //   alcoholType,
@@ -50,34 +69,46 @@ const AddCocktailIngredientModal = ({
     return <ActivityIndicator />;
   }
 
+  // useEffect(() => {
+  //   console.log(ingredientTypeLogo[selectedType]);
+  // }, [selectedType]);
+
   return (
-    <View>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalOpen}
-        onRequestClose={!modalOpen}
-      >
-        {/* <Image source={ingredientTypeLogo[selectedType]} /> */}
-        <View style={styles.SpicesModal}>
-          <CloseModal
-            setModalOpen={setModalOpen}
-            handlePress={handlePress}
-            selectedType={selectedType}
-          />
-          <View>
-            <Ingredients
-              setCocktailIngredient={setCocktailIngredient}
-              setModalOpen={setModalOpen}
-              handlePress={handlePress}
-              pressed={pressed}
-              selectedType={selectedType}
-              scrollToItem={scrollToItem}
-            />
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalOpen}
+      onRequestClose={!modalOpen}
+    >
+      <View style={styles.container}>
+        <ImageBackground
+          source={wood}
+          resizeMode="cover"
+          style={styles.ImageBackground}
+        >
+          <View style={styles.backgroundColor}>
+            <View style={styles.SpicesModal}>
+              {/* <Image source={ingredientTypeIcon[selectedType]} style={styles.selectedTypeImg} /> */}
+              <View>
+                <Ingredients
+                  setCocktailIngredient={setCocktailIngredient}
+                  setModalOpen={setModalOpen}
+                  handlePress={handlePress}
+                  pressed={pressed}
+                  selectedType={selectedType}
+                  scrollToItem={scrollToItem}
+                />
+              </View>
+              <CloseModal
+                setModalOpen={setModalOpen}
+                handlePress={handlePress}
+                selectedType={selectedType}
+              />
+            </View>
           </View>
-        </View>
-      </Modal>
-    </View>
+        </ImageBackground>
+      </View >
+    </Modal>
   );
 };
 
@@ -89,7 +120,7 @@ const Ingredients = ({
   selectedType,
   scrollToItem,
 }) => {
-  const {ingredients} = useContext(AppContext);
+  const { ingredients } = useContext(AppContext);
   return (
     <View style={styles.SpiceMap}>
       <ScrollView>
@@ -131,6 +162,7 @@ const IngredientItem = ({
       setModalOpen(false);
       scrollToItem();
     }}
+    style={styles.ingredientButton}
   >
     <View style={styles.SpiceItem}>
       <Text style={styles.SpiceItemText}>{ingredient.ingredientName}</Text>
@@ -138,6 +170,7 @@ const IngredientItem = ({
         <Text style={styles.SpiceItemText}>{ingredient.alcoholStrength} %</Text>
       )}
     </View>
+    <Text style={styles.SpiceItemTextDescription}>{ingredient.description}</Text>
   </Pressable>
 );
 
@@ -148,7 +181,7 @@ const CloseModal = ({ setModalOpen, handlePress, selectedType }) => {
         handlePress(selectedType);
         setModalOpen(false);
       }}
-      style={{ justifyContent: "center", alignItems: "center" }}
+      style={[styles.button, { justifyContent: "center", alignItems: "center" }]}
     >
       <View style={styles.CloseModal}>
         <Text style={styles.text}>CLOSE</Text>
@@ -160,10 +193,24 @@ const CloseModal = ({ setModalOpen, handlePress, selectedType }) => {
 export default AddCocktailIngredientModal;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  ImageBackground: {
+    flex: 1,
+    width: width,
+    height: height,
+  },
+  backgroundColor: {
+    backgroundColor: "rgba(92, 65, 50, 0.6)",
+    width: width,
+    height: height,
+    alignItems: "center",
+  },
   SpicesModal: {
     flex: 1,
     // justifyContent: "center",
-    backgroundColor: "rgba(92, 65, 50, 0.9)",
+    borderRadius: 20,
   },
   SpiceMap: {
     marginTop: 150,
@@ -176,16 +223,36 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 255, 133, 0.19)",
     // borderWidth: 4,
     // borderColor: "black",
+    borderRadius: 20,
     marginVertical: 10,
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  selectedTypeImg: {
+    resizeMode: "contain",
+    width: 20,
+    height: 20,
+  },
+  ingredientButton: {
+    marginVertical: 10,
+    width: width,
+    justifyContent: "center",
+    alignItems: "center",
   },
   SpiceItemText: {
     marginHorizontal: 20,
     fontSize: 15,
     color: "white",
     fontFamily: "MedievalSharp",
+  },
+  SpiceItemTextDescription: {
+    marginHorizontal: 20,
+    fontSize: 10,
+    color: "white",
+    fontFamily: "MedievalSharp",
+    textAlign: "center",
+    fontSize: 12,
   },
   text: {
     color: "white",
@@ -194,15 +261,22 @@ const styles = StyleSheet.create({
     fontFamily: "MedievalSharp",
   },
   CloseModal: {
-    position: "absolute",
-    top: 590,
-    alignContent: "center",
-    width: width / 1.2,
-    height: 50,
-    backgroundColor: "rgba(255, 21, 21, 0.7)",
-    borderWidth: 1,
-    borderColor: "black",
+    backgroundColor: "rgba(255, 21, 21, 0.3)",
+    width: 60,
+    height: 60,
     borderRadius: 10,
     justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    fontSize: 20,
+    fontFamily: "MedievalSharp",
+    color: "white",
+  },
+  button: {
+    width: width,
+    height: '25%',
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
   },
 });

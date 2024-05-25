@@ -9,7 +9,7 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import wood from "../assets/media/wood.jpg";
 
 import cocktail from "../assets/media/glasses/cocktail.png";
@@ -23,9 +23,9 @@ import rocks from "../assets/media/glasses/snifters.png";
 import FooterApp from "./Footer";
 import { useFonts } from "expo-font";
 
-import alcohol from "../assets/media/alcohol.png";
-import juice from "../assets/media/juice.png";
-import extra from "../assets/media/extra.png";
+import alcohol from "../assets/media/alcoholType.png";
+import juice from "../assets/media/juiceType.png";
+import extra from "../assets/media/extraType.png";
 import ice from "../assets/media/ice.png";
 import shake from "../assets/media/shake.png";
 import errase from "../assets/media/delete.png";
@@ -39,10 +39,10 @@ import {
   FormFieldDescription,
 } from "../src/components/FormFields";
 import {
-  StandardInputAlcohol,
   StandardInputDescription,
   StandardInputForm,
 } from "../src/components/StandardInput";
+import { AppContext } from "../src/context/AppContext";
 
 const glasses = [collins, cocktail, magic, margarita, shoot, coupe, rocks];
 
@@ -87,6 +87,12 @@ const NewCocktail = ({ navigation, route }) => {
     valueDescription,
     valueIngredients
   );
+
+  const { setCurrentScreen } = useContext(AppContext);
+
+  useEffect(() => {
+    setCurrentScreen("Addcoctel");
+  }, []);
 
   const [fontsLoaded, fontError] = useFonts({
     MedievalSharp: require("../assets/fonts/MedievalSharp.ttf"),
@@ -175,16 +181,11 @@ const NewCocktail = ({ navigation, route }) => {
               deleteCurrentIngredient={async () => {
                 await deleteCurrentCocktail();
                 navigation.navigate("Index");
+                setCurrentScreen("Index");
               }}
             />
           )}
-          <SaveButton
-            saveCurrentCocktail={async () => {
-              await saveCurrentCocktail();
-              navigation.navigate("Index");
-            }}
-          />
-          <FooterApp />
+          <FooterApp saveCurrentCocktail={async () => await saveCurrentCocktail()} />
         </View>
       </ImageBackground>
     </View>
@@ -200,12 +201,17 @@ const DeleteButton = ({ deleteCurrentIngredient }) => {
 };
 
 const AddCoctelImage = ({ setGlass }) => {
-  const [source, setSource] = useState("Glass");
+  const [source, setSource] = useState(glasses[Math.floor(Math.random() * 7)]);
+
+  useEffect(() => {
+    setGlass(source);
+  }, []);
+
   return (
     <View style={styles.ImageContainer}>
       <View style={styles.AddHeader}>
         <Image source={source} style={styles.Image} />
-        {source === "Glass" && <Text style={styles.glassText}>Choose a glass</Text>}
+        {source === "Glass" && <Text style={styles.glassText}></Text>}
       </View>
       <View style={styles.CoctelImage}>
         <CoctelImages setGlass={setGlass} setSource={setSource} />
@@ -237,7 +243,7 @@ const CoctelImage = ({ glass, setGlass, setSource }) => (
         setGlass(glass);
       }}
     >
-      <Image source={glass} style={[styles.Image, { opacity: 0.6 }]} />
+      <Image source={glass} style={[styles.ImageScrollView, { opacity: 0.6 }]} />
     </Pressable>
   </View>
 );
@@ -255,24 +261,26 @@ const AddIngredientList = ({
   const isCocktailIngredient = true;
   return (
     <View>
-      <ImageBackground source={pergamino} style={styles.AddIngredient}>
-        {pressed && (
-          <AddCocktailIngredientModal
-            pressed={pressed}
-            handlePress={handlePress}
-            modalOpen={modalOpen}
-            setModalOpen={setModalOpen}
-            selectedType={selectedType}
+      <View style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20, overflow: 'hidden', marginTop: 40 }}>
+        <ImageBackground source={pergamino} style={styles.AddIngredient}>
+          {pressed && (
+            <AddCocktailIngredientModal
+              pressed={pressed}
+              handlePress={handlePress}
+              modalOpen={modalOpen}
+              setModalOpen={setModalOpen}
+              selectedType={selectedType}
+              setCocktailIngredient={setCocktailIngredient}
+              scrollToItem={scrollToItem}
+              isCocktailIngredient={isCocktailIngredient}
+            />
+          )}
+          <IngredientsMap
+            cocktailIngredients={cocktailIngredients}
             setCocktailIngredient={setCocktailIngredient}
-            scrollToItem={scrollToItem}
-            isCocktailIngredient={isCocktailIngredient}
           />
-        )}
-        <IngredientsMap
-          cocktailIngredients={cocktailIngredients}
-          setCocktailIngredient={setCocktailIngredient}
-        />
-      </ImageBackground>
+        </ImageBackground>
+      </View>
 
       <IngredientTypeSelected
         handlePress={handlePress}
@@ -484,16 +492,6 @@ const IngredientTypeSelected = ({ handlePress, pressed }) => {
   );
 };
 
-const SaveButton = ({ saveCurrentCocktail }) => {
-  return (
-    <View style={styles.SaveButton}>
-      <Pressable onPress={saveCurrentCocktail}>
-        <Text style={styles.text}>SAVE</Text>
-      </Pressable>
-    </View>
-  );
-};
-
 export default NewCocktail;
 
 const styles = StyleSheet.create({
@@ -512,13 +510,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   ImageContainer: {
-    borderRadius: 20,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
   Ingredients: {
-    height: 120,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    height: 100,
     width: width / 1.1,
     backgroundColor: "rgba(0, 255, 133, 0.19)",
     borderWidth: 1,
@@ -534,9 +533,11 @@ const styles = StyleSheet.create({
     fontFamily: "MedievalSharp",
   },
   AddHeader: {
+    flex: 1,
+    borderRadius: 20,
     width: width / 3,
     height: 130,
-    backgroundColor: "rgba(0, 255, 133, 0.19)",
+    backgroundColor: "rgba(0, 255, 133, 0.2)",
     borderWidth: 1,
     borderColor: "#eeb51e",
     marginTop: 50,
@@ -544,14 +545,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   CoctelImage: {
+    borderWidth: 1,
+    borderColor: "#eeb51e",
+    borderRadius: 20,
     marginTop: 50,
     marginLeft: 10,
-    // borderRadius: 10,
     width: 200,
     height: 110,
-    backgroundColor: "rgba(0, 255, 133, 0.19)",
-    // borderWidth: 4,
-    // borderColor: "black",
+    backgroundColor: "rgba(0, 255, 133, 0.15)",
     flexDirection: "row",
     alignItems: "center",
   },
@@ -572,30 +573,21 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
   },
+  ImageScrollView: {
+    resizeMode: "contain",
+    width: 80,
+    height: 80,
+  },
   ImagesMap: {
     flexDirection: "row",
   },
   AddIngredient: {
-    // borderTopStartRadius: 15,
-    // borderTopEndRadius: 15,
     width: width / 1.1,
-    // backgroundColor: "rgba(161, 152, 152, 0.9)",
-  },
-  SaveButton: {
-    position: "absolute",
-    bottom: 120,
-    alignContent: "center",
-    width: width / 1.2,
-    height: 50,
-    backgroundColor: "rgba(255, 21, 21, 0.7)",
-    borderWidth: 1,
-    borderColor: "black",
-    borderRadius: 10,
-    justifyContent: "center",
   },
   Pressed: {
     backgroundColor: "rgba(218, 25, 25, 0.38)",
-    // borderRadius: 4,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
     // borderColor: "black",
     // borderWidth: 2,
   },
@@ -610,6 +602,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
+    marginTop: 10,
   },
   ingredientName: {
     borderColor: "black",
@@ -621,21 +614,21 @@ const styles = StyleSheet.create({
   },
   DeleteButton: {
     position: "absolute",
-    bottom: 185,
+    bottom: '15%',
     alignContent: "center",
     width: width / 1.6,
     height: 50,
-    backgroundColor: "rgba(255, 21, 21, 0.7)",
+    backgroundColor: "rgba(255, 21, 21, 0.3)",
     borderWidth: 2,
     borderColor: "black",
-    borderRadius: 10,
+    borderRadius: 20,
     justifyContent: "center",
   },
   IngredientType: {
     resizeMode: "contain",
-    width: 80,
-    height: 80,
-    margin: 15,
+    width: 70,
+    height: 70,
+    margin: 10,
   },
   pergamino: {
     position: "absolute",

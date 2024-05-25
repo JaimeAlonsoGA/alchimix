@@ -134,14 +134,14 @@ const NewIngredient = ({ route }) => {
         style={styles.ImageBackground}
       >
         <View style={styles.backgroundColor}>
-          <View style={{ position: "absolute", marginTop: 490 }}>
+          <View style={{ position: "absolute", top: '50%' }}>
             <Image
               source={mantel}
               style={{
                 resizeMode: "contain",
-                width: 400,
-                height: 400,
-                opacity: 0.2,
+                width: width,
+                height: height,
+                opacity: 0.5,
               }}
             />
           </View>
@@ -152,7 +152,7 @@ const NewIngredient = ({ route }) => {
               setPressed={setPressed}
               handlePress={handlePress}
             />
-            <View style={{ height: height * 1.01 }}>
+            <View style={{ height: height * 0.8 }}>
               <FormFieldName
                 valueName={ingredientName}
                 text={text}
@@ -175,20 +175,23 @@ const NewIngredient = ({ route }) => {
               />
             </View>
           </ScrollView>
-          <SaveButton
-            saveCurrentIngredient={async () => {
-              await saveCurrentIngredient();
-              navigation.navigate("Ingredients");
-            }}
-          />
-          {isEditing && (
-            <DeleteButton
-              deleteCurrentIngredient={async () => {
-                await deleteCurrentIngredient();
+          <View style={styles.buttons}>
+            <CloseButton goBack={() => navigation.navigate("Ingredients")} />
+            <SaveButton
+              saveCurrentIngredient={async () => {
+                await saveCurrentIngredient();
                 navigation.navigate("Ingredients");
               }}
             />
-          )}
+            {isEditing && (
+              <DeleteButton
+                deleteCurrentIngredient={async () => {
+                  await deleteCurrentIngredient();
+                  navigation.navigate("Ingredients");
+                }}
+              />
+            )}
+          </View>
         </View>
       </ImageBackground>
     </View>
@@ -207,6 +210,14 @@ const DeleteButton = ({ deleteCurrentIngredient }) => {
   return (
     <Pressable onPress={deleteCurrentIngredient} style={styles.DeleteButton}>
       <Text style={styles.text}>DELETE</Text>
+    </Pressable>
+  );
+};
+
+const CloseButton = ({ goBack }) => {
+  return (
+    <Pressable onPress={goBack} style={styles.backButton}>
+      <Text style={styles.text}>BACK</Text>
     </Pressable>
   );
 };
@@ -264,12 +275,13 @@ const styles = StyleSheet.create({
     height: height,
   },
   backgroundColor: {
-    backgroundColor: "rgba(92, 65, 50, 0.8)",
+    backgroundColor: "rgba(92, 65, 50, 0.6)",
     width: width,
     height: height,
     alignItems: "center",
   },
   Header: {
+    borderRadius: 20,
     marginTop: 50,
     height: 120,
     width: width / 1.1,
@@ -279,10 +291,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     // justifyContent: "space-evenly",
-    marginBottom: 40,
+    marginBottom: 10,
   },
   Pressed: {
     backgroundColor: "rgba(218, 25, 25, 0.38)",
+    borderRadius: 20,
     // borderRadius: 4,
     // borderColor: "black",
     // borderWidth: 2,
@@ -296,33 +309,52 @@ const styles = StyleSheet.create({
     fontFamily: "MedievalSharp",
   },
   SaveButton: {
-    position: "absolute",
-    bottom: 50,
-    alignContent: "center",
-    width: width / 1.1,
-    height: 50,
-    backgroundColor: "rgba(255, 21, 21, 0.7)",
-    borderWidth: 1,
-    borderColor: "black",
+    backgroundColor: "rgba(0, 255, 133, 0.3)",
+    width: 60,
+    height: 60,
     borderRadius: 10,
     justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    fontSize: 20,
+    fontFamily: "MedievalSharp",
+    color: "white",
   },
   DeleteButton: {
-    position: "absolute",
-    bottom: 115,
-    alignContent: "center",
-    width: width / 1.6,
-    height: 50,
-    backgroundColor: "rgba(255, 21, 21, 0.7)",
-    borderWidth: 2,
-    borderColor: "black",
+    backgroundColor: "rgba(255, 21, 21, 0.3)",
+    height: 60,
     borderRadius: 10,
     justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    fontSize: 20,
+    fontFamily: "MedievalSharp",
+    color: "white",
   },
   IngredientType: {
     resizeMode: "contain",
     width: 80,
     height: 80,
     margin: 15,
+  },
+  buttons: {
+    width: width,
+    height: '13%',
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    marginBottom: '3%',
+  },
+  backButton: {
+    backgroundColor: "rgba(161, 152, 152, 0.5)",
+    height: 60,
+    width: 60,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    fontSize: 20,
+    fontFamily: "MedievalSharp",
+    color: "white",
   },
 });

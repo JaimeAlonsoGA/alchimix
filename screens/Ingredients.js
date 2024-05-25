@@ -69,14 +69,14 @@ const Ingredients = () => {
         style={styles.ImageBackground}
       >
         <View style={styles.backgroundColor}>
-          <View style={{ position: "absolute", marginTop: 490 }}>
+          <View style={{ position: "absolute", top: '50%' }}>
             <Image
               source={mantel}
               style={{
                 resizeMode: "contain",
                 width: width,
                 height: height,
-                opacity: 0.2,
+                opacity: 0.5,
               }}
             />
           </View>
@@ -97,8 +97,7 @@ const Ingredients = () => {
             ingredientSelected={ingredientSelected}
             isCocktailIngredient={isCocktailIngredient}
           />
-          <AddSpice typeIngredientSelected={typeIngredientSelected} />
-          <FooterApp />
+          <FooterApp typeIngredientSelected={typeIngredientSelected} />
         </View>
       </ImageBackground>
     </View>
@@ -170,7 +169,7 @@ const IngredientList = ({
   setIngredientSelected,
   typeIngredientSelected,
 }) => {
-  const {ingredients} = useContext(AppContext);
+  const { ingredients } = useContext(AppContext);
   return (
     <View style={styles.IngredientList}>
       <ScrollView>
@@ -214,25 +213,6 @@ const IngredientItem = ({
   </>
 );
 
-const AddSpice = ({ typeIngredientSelected }) => {
-  const navigation = useNavigation();
-  return (
-    <Pressable
-      onPress={() =>
-        navigation.navigate("NewIngredient", {
-          valueDescription: null,
-          valueName: null,
-          valueAlcohol: null,
-          valueType: typeIngredientSelected,
-        })
-      }
-      style={styles.AddSpice}
-    >
-      <Text style={[styles.text, { fontSize: 18 }]}>ADD</Text>
-    </Pressable>
-  );
-};
-
 export default Ingredients;
 
 const styles = StyleSheet.create({
@@ -245,12 +225,13 @@ const styles = StyleSheet.create({
     height: height,
   },
   backgroundColor: {
-    backgroundColor: "rgba(92, 65, 50, 0.8)",
+    backgroundColor: "rgba(92, 65, 50, 0.6)",
     width: width,
     height: height,
     alignItems: "center",
-  },  
+  },
   Header: {
+    borderRadius: 20,
     marginTop: 50,
     height: 120,
     width: width / 1.1,
@@ -264,6 +245,7 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   Pressed: {
+    borderRadius: 20,
     backgroundColor: "rgba(218, 25, 25, 0.38)",
     // borderRadius: 4,
     // borderColor: "black",
@@ -275,6 +257,7 @@ const styles = StyleSheet.create({
     fontFamily: "MedievalSharp",
   },
   SpiceItem: {
+    borderRadius: 20,
     width: width / 1.4,
     height: 50,
     backgroundColor: "rgba(0, 255, 133, 0.19)",
@@ -290,18 +273,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "white",
     fontFamily: "MedievalSharp",
-  },
-  AddSpice: {
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 13,
-    borderColor: "black",
-    borderWidth: 1,
-    backgroundColor: "rgba(255, 21, 21, 0.7)",
-    width: 80,
-    height: 80,
-    position: "absolute",
-    bottom: 140,
   },
   IngredientType: {
     alignItems: "center",

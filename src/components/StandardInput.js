@@ -33,10 +33,10 @@ export const StandardInputAlcohol = (props) => {
     <TextInput
       inputMode="decimal"
       {...props}
+      placeholder="Alcohol %"
       style={[
         styles.CocktailAlcohol,
         styles.textInput,
-        { width: 40, textAlign: "center" },
       ]}
     />
   );
@@ -46,12 +46,10 @@ export default StandardInputForm;
 
 const styles = StyleSheet.create({
   CocktailName: {
-    marginTop: 10,
-    backgroundColor: "rgba(161, 152, 152, 0.1)",
+    backgroundColor: "rgba(161, 152, 152, 0.5)",
     width: width / 1.1,
     height: 50,
-    marginVertical: 5,
-    borderRadius: 4,
+    borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",
@@ -60,26 +58,27 @@ const styles = StyleSheet.create({
     color: "white",
   },
   CocktailDescription: {
-    backgroundColor: "rgba(161, 152, 152, 0.1)",
+    borderRadius: 20,
+    backgroundColor: "rgba(161, 152, 152, 0.5)",
     width: width / 1.1,
     height: 30,
-    marginVertical: 15,
-    borderRadius: 4,
     justifyContent: "center",
     alignItems: "center",
     color: "#F3E8E6",
   },
   CocktailAlcohol: {
-    backgroundColor: "rgba(161, 152, 152, 0.1)",
+    borderRadius: 20,
+    backgroundColor: "rgba(161, 152, 152, 0.5)",
     width: width / 1.1,
     height: 30,
     marginVertical: 20,
-    borderRadius: 4,
     justifyContent: "center",
     alignItems: "center",
+    textAlign: "center",
     color: "white",
   },
   Ingredient: {
+    borderRadius: 20,
     color: "black",
     fontSize: 20,
     textAlign: "center",

@@ -9,7 +9,7 @@ export const FormFieldName = ({
 }) => {
   return (
     <View>
-      <Text style={[styles.text, {marginTop: 20}]}>{text}</Text>
+      <Text style={styles.text}>{text}</Text>
       <StandardInputForm
         value={valueName}
         onChangeText={(text) => setter(text)}
@@ -54,8 +54,10 @@ export const FormFieldAlcohol = ({
 
 const styles = StyleSheet.create({
   text: {
+    marginBottom: 10,
+    marginTop: 20,
     color: "#f3d31a",
-    fontSize: 20,
+    fontSize: 30,
     textAlign: "center",
     fontFamily: "MedievalSharp",
   },
