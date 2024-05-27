@@ -177,7 +177,7 @@ const NewCocktail = ({ navigation, route }) => {
               />
             </View>
           </ScrollView>
-          {isEditing && (
+          {/* {isEditing && (
             <DeleteButton
               deleteCurrentIngredient={async () => {
                 await deleteCurrentCocktail();
@@ -185,8 +185,15 @@ const NewCocktail = ({ navigation, route }) => {
                 setCurrentScreen("Index");
               }}
             />
-          )}
-          <FooterApp saveCurrentCocktail={async () => await saveCurrentCocktail()} />
+          )} */}
+          <FooterApp saveCurrentCocktail={async () =>
+            await saveCurrentCocktail()}
+            isEditing={isEditing}
+            deleteCurrentCocktail={async () => {
+              await deleteCurrentCocktail();
+              navigation.navigate("Index");
+              setCurrentScreen("Index");
+            }} />
         </View>
       </ImageBackground>
     </View>
@@ -330,6 +337,7 @@ const IngredientsMap = ({ cocktailIngredients, setCocktailIngredient }) => {
       {cocktailIngredients.map((cocktailIngredient) => {
         return (
           <IngredientItem
+            key={cocktailIngredient.ingredientCharacteristics.id}
             cocktailIngredients={cocktailIngredients}
             cocktailIngredient={cocktailIngredient}
             setCocktailIngredient={setCocktailIngredient}
@@ -397,9 +405,8 @@ const IngredientContent = ({
         <Text style={styles.quantityText}>{cocktailIngredient.ingredientCharacteristics.ingredientType === "shake"
           ? "" : "Quantity:"}</Text>
         {[...Array(cocktailIngredient.quantity)].map((_, i) => (
-          <View style={styles.quantityItem}>
+          <View key={i} style={styles.quantityItem}>
             <Image
-              key={i}
               source={cocktailIngredient.ingredientCharacteristics.ingredientType === "ice"
                 ? ice
                 : cocktailIngredient.ingredientCharacteristics.ingredientType === "juice"
@@ -622,7 +629,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     width: 30,
     height: 30,
-    marginLeft: 10,
+    marginLeft: 20,
   },
   IngredientOnList: {
     width: width / 1.1,

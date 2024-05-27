@@ -31,6 +31,7 @@ import {
   StandardInputDescription,
   StandardInputForm,
 } from "../src/components/StandardInput";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -64,6 +65,7 @@ const NewIngredient = ({ route }) => {
   );
 
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
   const [typeOfIngredientToEdit, setTypeOfIngredientToEdit] =
     useState("alcohol");
   const [pressed, setPressed] = useState({
@@ -175,7 +177,12 @@ const NewIngredient = ({ route }) => {
               />
             </View>
           </ScrollView>
-          <View style={styles.buttons}>
+          <View style={[styles.buttons, {
+            paddingLeft: insets.left,
+            paddingRight: insets.right,
+            paddingBottom: insets.bottom
+          }
+          ]}>
             <CloseButton goBack={() => navigation.navigate("Ingredients")} />
             <SaveButton
               saveCurrentIngredient={async () => {
@@ -338,12 +345,12 @@ const styles = StyleSheet.create({
     margin: 15,
   },
   buttons: {
+    position: "absolute",
+    bottom: '8%',
     width: width,
-    height: '13%',
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
-    marginBottom: '3%',
   },
   backButton: {
     backgroundColor: "rgba(161, 152, 152, 0.5)",

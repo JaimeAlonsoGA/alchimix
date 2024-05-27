@@ -53,7 +53,7 @@ const Cocktail = ({ route }) => {
                 <Image source={cocktail.glass} style={styles.Image} />
               </View>
             </View>
-            <View style={{ borderRadius: 20, overflow: 'hidden' }}>
+            <View style={{ borderRadius: 20, overflow: 'hidden', marginBottom: 60 }}>
               <ImageBackground
                 source={pergamino}
                 style={{ flex: 1 }}
@@ -117,6 +117,7 @@ const SeeCocktailIngredientList = ({
     <View style={styles.ingredientListContainer}>
       {ingredients.map((ingredient) => (
         <IngredientItem
+          key={ingredient.ingredientCharacteristics.id}
           ingredient={ingredient}
           setIsModalOpen={setIsModalOpen}
           setIngredientSelected={setIngredientSelected}
@@ -154,9 +155,8 @@ const IngredientItem = ({
         <Text style={styles.quantityText}>{ingredient.ingredientCharacteristics.ingredientType === "shake"
           ? "" : "Quantity:"}</Text>
         {[...Array(ingredient.quantity)].map((_, i) => (
-          <View style={styles.quantityItem}>
+          <View key={i} style={styles.quantityItem}>
             <Image
-              key={i}
               source={ingredient.ingredientCharacteristics.ingredientType === "ice"
                 ? ice
                 : ingredient.ingredientCharacteristics.ingredientType === "juice"
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
     fontFamily: "MedievalSharp",
   },
   buttons: {
-    marginBottom: 40,
+    marginBottom: 60,
     width: width,
     flexDirection: "row",
     justifyContent: "space-evenly",

@@ -133,6 +133,17 @@ export const defaultCocktails = [
                 },
                 quantity: 2
             },
+            {
+                ingredientCharacteristics:
+                {
+                    alcoholStrength: "45",
+                    description: "Gin is a distilled alcoholic drink that derives its predominant flavour from juniper berries",
+                    id: "g8f5e7f1-8d4d-4e7d-9c6f-6d1b6a6d8b1e",
+                    ingredientName: "Gin",
+                    ingredientType: "alcohol"
+                },
+                quantity: 1
+            },
         ],
         cocktailName: "Tutorial",
         description: "How to get started creating awesome custom cocktails with Alchimix:\nAdd your everyday ingredients to the pantry on the Pantry screen.\nGo to the New Cocktail screen\nChoose a glass\nGive it a name!\nWrite a description\nSelect the ingredients and their quantities in a proportion of 1/5\nYou can later edit them so don't worry too much about having it too strong at first 🥴\nBe creative and have fun!!!",

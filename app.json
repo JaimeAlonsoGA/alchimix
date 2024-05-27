@@ -2,7 +2,7 @@
   "expo": {
     "name": "Alchimix",
     "slug": "coctelapp",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -22,7 +22,8 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.sonicode.coctelapp"
+      "package": "com.sonicode.coctelapp",
+      "versionCode": 3
     },
     "plugins": [
       "expo-font"
