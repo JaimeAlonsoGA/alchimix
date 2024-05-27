@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     // alignContent: 'center',
     // justifyContent: "center",
     flexDirection: "row",
-    marginBottom: 50,
+    marginBottom: 35,
   },
   Pressed: {
     borderRadius: 20,
@@ -257,8 +257,8 @@ const styles = StyleSheet.create({
     fontFamily: "MedievalSharp",
   },
   SpiceItem: {
+    width: width / 1.2,
     borderRadius: 20,
-    width: width / 1.4,
     height: 50,
     backgroundColor: "rgba(0, 255, 133, 0.19)",
     // borderWidth: 4,
@@ -282,6 +282,8 @@ const styles = StyleSheet.create({
     margin: 15,
   },
   IngredientList: {
-    height: 350,
+    width: width / 1.1,
+    alignItems: "center",
+    height: 450,
   },
 });

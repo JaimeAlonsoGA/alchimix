@@ -24,6 +24,11 @@ const Index = () => {
   const [fontsLoaded, fontError] = useFonts({
     MedievalSharp: require("../assets/fonts/MedievalSharp.ttf"),
   });
+  const { setCurrentScreen } = useContext(AppContext);
+
+  useEffect(() => {
+    setCurrentScreen("Index");
+  }, []);
 
   if (fontError) {
     console.error(fontError);
@@ -51,13 +56,13 @@ const Index = () => {
 };
 
 const CocktailList = ({ navigation }) => {
-  const {cocktails} = useContext(AppContext) 
-  return(
-  <ScrollView showsVerticalScrollIndicator={false}>
-    {cocktails.map((cocktail, i) => (
-      <CocktailItem cocktail={cocktail} key={i} navigation={navigation} />
-    ))}
-  </ScrollView>
+  const { cocktails } = useContext(AppContext)
+  return (
+    <ScrollView showsVerticalScrollIndicator={false}>
+      {cocktails.map((cocktail, i) => (
+        <CocktailItem cocktail={cocktail} key={i} navigation={navigation} />
+      ))}
+    </ScrollView>
   )
 };
 
@@ -97,6 +102,8 @@ const styles = StyleSheet.create({
     fontFamily: "MedievalSharp",
   },
   cocktailItem: {
+    borderWidth: 1,
+    borderColor: "#eeb51e",
     width: 250,
     height: 250,
     backgroundColor: "rgba(0, 255, 133, 0.19)",

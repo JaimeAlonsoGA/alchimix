@@ -8,18 +8,24 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import wood from "../assets/media/wood.jpg";
 import { useFonts } from "expo-font";
 import { ingredientImages } from "./newCocktail";
 import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+
+import ice from "../assets/media/ice.png";
+import wood from "../assets/media/wood.jpg";
 import edit from "../assets/media/edit.png";
 import pergamino from "../assets/media/pergamino.jpg";
 import DescriptionModal from "../src/components/DescriptionModal";
+import alcoholPortion from "../assets/media/alcohol.png";
+import juicePortion from "../assets/media/juice.png";
+import extraPortion from "../assets/media/extra.png";
 
 const { width, height } = Dimensions.get("screen");
 
 const Cocktail = ({ route }) => {
+  const navigation = useNavigation();
   const { cocktail } = route.params;
 
   useFonts({
@@ -46,7 +52,6 @@ const Cocktail = ({ route }) => {
               <View style={styles.cocktailItem}>
                 <Image source={cocktail.glass} style={styles.Image} />
               </View>
-              <EditCocktail cocktail={cocktail} />
             </View>
             <View style={{ borderRadius: 20, overflow: 'hidden' }}>
               <ImageBackground
@@ -69,6 +74,10 @@ const Cocktail = ({ route }) => {
                   setIsModalOpen={setIsModalOpen}
                   ingredientSelected={ingredientSelected}
                 />
+                <View style={styles.buttons}>
+                  <CloseButton goBack={() => navigation.navigate("Index")} />
+                  <EditCocktail cocktail={cocktail} />
+                </View>
               </ImageBackground>
             </View>
           </ScrollView>
@@ -92,7 +101,9 @@ const EditCocktail = ({ cocktail }) => {
         })
       }
     >
-      <Image source={edit} style={styles.EditImage} />
+      <View style={styles.editContainer}>
+        <Image source={edit} style={styles.EditImage} />
+      </View>
     </Pressable>
   );
 };
@@ -103,16 +114,15 @@ const SeeCocktailIngredientList = ({
   setIngredientSelected,
 }) => {
   return (
-    <>
-      {ingredients.map((ingredient, i) => (
+    <View style={styles.ingredientListContainer}>
+      {ingredients.map((ingredient) => (
         <IngredientItem
           ingredient={ingredient}
-          key={i}
           setIsModalOpen={setIsModalOpen}
           setIngredientSelected={setIngredientSelected}
         />
       ))}
-    </>
+    </View>
   );
 };
 
@@ -132,36 +142,56 @@ const IngredientItem = ({
       >
         <View style={{ flex: 1 }}>
           <QuantityIngredient
-            ingredientImage={
-              ingredient.ingredientCharacteristics.ingredientType
-            }
-            quantity={ingredient.quantity}
+            ingredient={ingredient}
+            ingredientImage={ingredient.ingredientCharacteristics.ingredientType}
           />
         </View>
-        <View style={{ flexDirection: "column" }}>
-          <Text style={styles.Ingredient}>
-            {ingredient.ingredientCharacteristics.ingredientName}
-          </Text>
-          <Text style={[styles.Ingredient, { fontSize: 10 }]}>
-            {ingredient.ingredientCharacteristics.description}
-          </Text>
-        </View>
+        <Text style={styles.Ingredient}>
+          {ingredient.ingredientCharacteristics.ingredientName}
+        </Text>
       </Pressable>
+      <View style={styles.quantityContainer}>
+        <Text style={styles.quantityText}>{ingredient.ingredientCharacteristics.ingredientType === "shake"
+          ? "" : "Quantity:"}</Text>
+        {[...Array(ingredient.quantity)].map((_, i) => (
+          <View style={styles.quantityItem}>
+            <Image
+              key={i}
+              source={ingredient.ingredientCharacteristics.ingredientType === "ice"
+                ? ice
+                : ingredient.ingredientCharacteristics.ingredientType === "juice"
+                  ? juicePortion
+                  : ingredient.ingredientCharacteristics.ingredientType === "alcohol"
+                    ? alcoholPortion
+                    : ingredient.ingredientCharacteristics.ingredientType === "extra"
+                      ? extraPortion
+                      : null
+              }
+              style={styles.ImageIngredientQuantity}
+            />
+          </View>
+        ))}
+      </View>
     </View>
   );
 };
 
-const QuantityIngredient = ({ ingredientImage, quantity }) => {
+const QuantityIngredient = ({ ingredientImage }) => {
   return (
     <View style={styles.QuantityIngredient}>
-      {[...Array(quantity)].map((_, i) => (
-        <Image
-          key={i}
-          source={ingredientImages[ingredientImage]}
-          style={styles.ImageIngredientQuantity}
-        />
-      ))}
+      <Image
+        source={ingredientImages[ingredientImage]}
+        style={styles.imgIngredient}
+      />
     </View>
+  );
+};
+
+const CloseButton = ({ goBack }) => {
+  return (
+    <Pressable onPress={goBack} style={styles.backButton}>
+      <Text style={styles.textButton}>BACK</Text>
+    </Pressable>
   );
 };
 
@@ -190,44 +220,47 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontFamily: "MedievalSharp",
   },
+  textButton: {
+    color: "white",
+    fontSize: 18,
+    textAlign: "center",
+    fontFamily: "MedievalSharp",
+  },
   cocktailItem: {
     borderRadius: 20,
-    width: 160,
-    height: 160,
+    width: 200,
+    height: 200,
     backgroundColor: "rgba(0, 255, 133, 0.19)",
     borderWidth: 1,
     borderColor: "#eeb51e",
-    marginTop: 20,
     marginBottom: 20,
     alignItems: "center",
+    justifyContent: "center",
     flexDirection: "column",
   },
   Image: {
-    marginTop: 15,
     resizeMode: "contain",
-    width: 60,
-    height: 120,
-    position: "absolute",
+    width: 140,
+    height: 140,
   },
   IngredientText: {
     // marginTop: 6,
     color: "white",
     fontSize: 20,
-    textAlign: "center",
     fontFamily: "MedievalSharp",
   },
   Ingredient: {
     color: "black",
     fontSize: 20,
-    textAlign: "center",
     fontFamily: "MedievalSharp",
   },
   IngredientOnList: {
     width: width / 1.1,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
     padding: 10,
+    marginTop: 10,
   },
   QuantityIngredient: {
     flexDirection: "row",
@@ -242,25 +275,67 @@ const styles = StyleSheet.create({
   },
   Header: {
     flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
-    marginTop: '5%',
+    marginTop: '15%',
   },
   EditImage: {
+    padding: 10,
     resizeMode: "contain",
-    width: 80,
-    height: 80,
-    marginLeft: 60,
+    width: 60,
+    height: 60,
+  },
+  editContainer: {
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "black",
   },
   ImageIngredientQuantity: {
     resizeMode: "contain",
-    width: 30,
-    height: 30,
+    width: 20,
+    height: 20,
   },
-
-  pergamino: {
-    position: "absolute",
-    resizeMode: "center",
-    width: 500,
-    height: 500,
+  imgIngredient: {
+    resizeMode: "contain",
+    width: 40,
+    height: 40,
+  },
+  quantityContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    // backgroundColor: "rgba(0, 255, 133, 0.19)",
+    borderRadius: 20,
+    padding: 5,
+    margin: 5,
+  },
+  quantityItem: {
+    // backgroundColor: "rgba(0, 0, 0, 0.6)",
+    marginLeft: 5,
+  },
+  quantityText: {
+    fontSize: 12,
+    fontFamily: "MedievalSharp",
+  },
+  buttons: {
+    marginBottom: 40,
+    width: width,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+  },
+  backButton: {
+    backgroundColor: "rgba(161, 152, 152, 0.5)",
+    height: 60,
+    width: 60,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    fontSize: 20,
+    fontFamily: "MedievalSharp",
+    color: "white",
+  },
+  ingredientListContainer: {
+    marginBottom: 20,
   },
 });

@@ -30,7 +30,8 @@ const FooterApp = ({ typeIngredientSelected, saveCurrentCocktail }) => {
 
   return (
     <View style={styles.FooterApp}>
-      <Pressable onPress={() => { navigation.navigate("Index"); setCurrentScreen("Index") }}>
+      <Pressable
+        onPress={() => { navigation.navigate("Index"); setCurrentScreen("Index") }}>
         <Image source={cocktails} style={styles.Image} />
       </Pressable>
       <Pressable
@@ -38,7 +39,7 @@ const FooterApp = ({ typeIngredientSelected, saveCurrentCocktail }) => {
           setCurrentScreen("Addcoctel");
           navigation.navigate("Addcoctel", {
             valueId: null,
-            valueGlass: null,
+            valueGlass: plus,
             valueDescription: null,
             valueName: null,
             valueIngredients: [],

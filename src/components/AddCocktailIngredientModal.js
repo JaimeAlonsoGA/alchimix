@@ -22,30 +22,22 @@ import wood from "../../assets/media/wood.jpg";
 
 const { width, height } = Dimensions.get("screen");
 
-// const ingredientTypeLogo = (selectedType) => {
-//   switch (selectedType) {
-//     case "ice":
-//       return ice;
-//     case "shake":
-//       return shake;
-//     case "alcohol":
-//       return alcoholType;
-//     case "extra":
-//       return extraType;
-//     case "juice":
-//       return juiceType;
-//     default:
-//       return null;
-//   }
-// };
-
-// const ingredientTypeIcon = {
-//   ice,
-//   shake,
-//   alcoholType,
-//   extraType,
-//   juiceType,
-// };
+const ingredientTypeLogo = (selectedType) => {
+  switch (selectedType) {
+    case "ice":
+      return ice;
+    case "shake":
+      return shake;
+    case "alcohol":
+      return alcoholType;
+    case "extra":
+      return extraType;
+    case "juice":
+      return juiceType;
+    default:
+      return null;
+  }
+};
 
 const AddCocktailIngredientModal = ({
   setCocktailIngredient,
@@ -69,10 +61,6 @@ const AddCocktailIngredientModal = ({
     return <ActivityIndicator />;
   }
 
-  // useEffect(() => {
-  //   console.log(ingredientTypeLogo[selectedType]);
-  // }, [selectedType]);
-
   return (
     <Modal
       animationType="slide"
@@ -80,34 +68,24 @@ const AddCocktailIngredientModal = ({
       visible={modalOpen}
       onRequestClose={!modalOpen}
     >
-      <View style={styles.container}>
-        <ImageBackground
-          source={wood}
-          resizeMode="cover"
-          style={styles.ImageBackground}
-        >
-          <View style={styles.backgroundColor}>
-            <View style={styles.SpicesModal}>
-              {/* <Image source={ingredientTypeIcon[selectedType]} style={styles.selectedTypeImg} /> */}
-              <View>
-                <Ingredients
-                  setCocktailIngredient={setCocktailIngredient}
-                  setModalOpen={setModalOpen}
-                  handlePress={handlePress}
-                  pressed={pressed}
-                  selectedType={selectedType}
-                  scrollToItem={scrollToItem}
-                />
-              </View>
-              <CloseModal
-                setModalOpen={setModalOpen}
-                handlePress={handlePress}
-                selectedType={selectedType}
-              />
-            </View>
-          </View>
-        </ImageBackground>
-      </View >
+      <View style={styles.SpicesModal}>
+        <Image source={ingredientTypeLogo(selectedType)} style={styles.selectedTypeImg} />
+        <View>
+          <Ingredients
+            setCocktailIngredient={setCocktailIngredient}
+            setModalOpen={setModalOpen}
+            handlePress={handlePress}
+            pressed={pressed}
+            selectedType={selectedType}
+            scrollToItem={scrollToItem}
+          />
+        </View>
+        <CloseModal
+          setModalOpen={setModalOpen}
+          handlePress={handlePress}
+          selectedType={selectedType}
+        />
+      </View>
     </Modal>
   );
 };
@@ -170,7 +148,7 @@ const IngredientItem = ({
         <Text style={styles.SpiceItemText}>{ingredient.alcoholStrength} %</Text>
       )}
     </View>
-    <Text style={styles.SpiceItemTextDescription}>{ingredient.description}</Text>
+    {/* <Text style={styles.SpiceItemTextDescription}>{ingredient.description}</Text> */}
   </Pressable>
 );
 
@@ -183,8 +161,8 @@ const CloseModal = ({ setModalOpen, handlePress, selectedType }) => {
       }}
       style={[styles.button, { justifyContent: "center", alignItems: "center" }]}
     >
-      <View style={styles.CloseModal}>
-        <Text style={styles.text}>CLOSE</Text>
+      <View style={styles.backButton}>
+        <Text style={styles.text}>BACK</Text>
       </View>
     </Pressable>
   );
@@ -202,20 +180,25 @@ const styles = StyleSheet.create({
     height: height,
   },
   backgroundColor: {
-    backgroundColor: "rgba(92, 65, 50, 0.6)",
+    backgroundColor: "rgba(92, 65, 50, 0.7)",
     width: width,
     height: height,
     alignItems: "center",
   },
   SpicesModal: {
+    backgroundColor: "rgba(92, 65, 50, 0.8)",
     flex: 1,
-    // justifyContent: "center",
-    borderRadius: 20,
+    alignItems: "center",
   },
   SpiceMap: {
-    marginTop: 150,
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
+    width: width,
+    borderWidth: 1,
+    borderRadius: 20,
+    borderColor: "rgba(190, 190, 190, 1)",
     alignItems: "center",
-    height: 400,
+    height: 450,
+    marginBottom: 20,
   },
   SpiceItem: {
     width: width / 1.1,
@@ -231,8 +214,12 @@ const styles = StyleSheet.create({
   },
   selectedTypeImg: {
     resizeMode: "contain",
-    width: 20,
-    height: 20,
+    width: 100,
+    height: 100,
+    backgroundColor: "rgba(190, 190, 190, 1)",
+    borderRadius: 20,
+    marginTop: '5%',
+    marginBottom: 35,
   },
   ingredientButton: {
     marginVertical: 10,
@@ -260,10 +247,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontFamily: "MedievalSharp",
   },
-  CloseModal: {
-    backgroundColor: "rgba(255, 21, 21, 0.3)",
-    width: 60,
+  backButton: {
+    backgroundColor: "rgba(190, 190, 190, 0.6)",
     height: 60,
+    width: 60,
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
@@ -274,7 +261,6 @@ const styles = StyleSheet.create({
   },
   button: {
     width: width,
-    height: '25%',
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",

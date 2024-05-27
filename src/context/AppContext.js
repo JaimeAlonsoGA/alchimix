@@ -1,5 +1,7 @@
 import { createContext, useEffect, useState } from "react";
-import { getCachedData } from "../../saveData";
+import { getCachedData, removeCachedData } from "../../saveData";
+import { defaultCocktails, defaultIngredients } from "../defaultData";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const AppContext = createContext();
 
@@ -18,17 +20,24 @@ export const AppContextProvider = ({ children }) => {
       if (data) {
         setCocktails(JSON.parse(data));
       }
+      else {
+        AsyncStorage.setItem('cocktails', JSON.stringify(defaultCocktails))
+          .then(() => setCocktails(defaultCocktails));
+      }
     });
-    //removeCachedData("cocktails");
+    // removeCachedData("cocktails");
   }, []);
 
   useEffect(() => {
     getCachedData("ingredients").then((data) => {
       if (data) {
         setIngredients(JSON.parse(data));
+      } else {
+        AsyncStorage.setItem('ingredients', JSON.stringify(defaultIngredients))
+          .then(() => setIngredients(defaultIngredients));
       }
     });
-    //removeCachedData("ingredients");
+    // removeCachedData("ingredients");
   }, []);
 
   useEffect(() => {

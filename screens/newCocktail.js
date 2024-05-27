@@ -10,28 +10,7 @@ import {
   View,
 } from "react-native";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import wood from "../assets/media/wood.jpg";
-
-import cocktail from "../assets/media/glasses/cocktail.png";
-import collins from "../assets/media/glasses/collins.png";
-import coupe from "../assets/media/glasses/coupe glass.png";
-import magic from "../assets/media/glasses/magic glass.png";
-import margarita from "../assets/media/glasses/Margarita.png";
-import shoot from "../assets/media/glasses/shoot.png";
-import rocks from "../assets/media/glasses/snifters.png";
-
-import FooterApp from "./Footer";
 import { useFonts } from "expo-font";
-
-import alcohol from "../assets/media/alcoholType.png";
-import juice from "../assets/media/juiceType.png";
-import extra from "../assets/media/extraType.png";
-import ice from "../assets/media/ice.png";
-import shake from "../assets/media/shake.png";
-import errase from "../assets/media/delete.png";
-import plus from "../assets/media/plus.png";
-import pergamino from "../assets/media/pergamino.jpg";
-import AddCocktailIngredientModal from "../src/components/AddCocktailIngredientModal";
 import { useNewCocktail } from "../src/hooks/useNewCocktail";
 import {
   FormFieldName,
@@ -43,6 +22,28 @@ import {
   StandardInputForm,
 } from "../src/components/StandardInput";
 import { AppContext } from "../src/context/AppContext";
+
+import wood from "../assets/media/wood.jpg";
+import cocktail from "../assets/media/glasses/cocktail.png";
+import collins from "../assets/media/glasses/collins.png";
+import coupe from "../assets/media/glasses/coupe glass.png";
+import magic from "../assets/media/glasses/magic glass.png";
+import margarita from "../assets/media/glasses/Margarita.png";
+import shoot from "../assets/media/glasses/shoot.png";
+import rocks from "../assets/media/glasses/snifters.png";
+import FooterApp from "./Footer";
+import alcohol from "../assets/media/alcoholType.png";
+import juice from "../assets/media/juiceType.png";
+import extra from "../assets/media/extraType.png";
+import ice from "../assets/media/ice.png";
+import shake from "../assets/media/shake.png";
+import errase from "../assets/media/delete.png";
+import alcoholPortion from "../assets/media/alcohol.png";
+import juicePortion from "../assets/media/juice.png";
+import extraPortion from "../assets/media/extra.png";
+import plus from "../assets/media/plus.png";
+import pergamino from "../assets/media/pergamino.jpg";
+import AddCocktailIngredientModal from "../src/components/AddCocktailIngredientModal";
 
 const glasses = [collins, cocktail, magic, margarita, shoot, coupe, rocks];
 
@@ -148,7 +149,7 @@ const NewCocktail = ({ navigation, route }) => {
         <View style={styles.backgroundColor}>
           <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
             <AddCoctelImage setGlass={setGlass} initialState={glass} />
-            <View style={{ height: height + cocktailIngredients.length * 50 }}>
+            <View style={{ height: height + cocktailIngredients.length * 100 }}>
               <FormFieldName
                 setter={setCocktailName}
                 // text={"NAME"}
@@ -200,18 +201,21 @@ const DeleteButton = ({ deleteCurrentIngredient }) => {
   );
 };
 
-const AddCoctelImage = ({ setGlass }) => {
-  const [source, setSource] = useState(glasses[Math.floor(Math.random() * 7)]);
+const AddCoctelImage = ({ setGlass, initialState }) => {
+  const [source, setSource] = useState(initialState);
 
   useEffect(() => {
-    setGlass(source);
+    if (source === plus) {
+      const randomGlass = glasses[Math.floor(Math.random() * 7)];
+      setSource(randomGlass);
+      setGlass(randomGlass);
+    }
   }, []);
 
   return (
     <View style={styles.ImageContainer}>
       <View style={styles.AddHeader}>
         <Image source={source} style={styles.Image} />
-        {source === "Glass" && <Text style={styles.glassText}></Text>}
       </View>
       <View style={styles.CoctelImage}>
         <CoctelImages setGlass={setGlass} setSource={setSource} />
@@ -300,38 +304,37 @@ const IngredientsMap = ({ cocktailIngredients, setCocktailIngredient }) => {
 
     tempIngredients.filter(
       (c) => c.ingredientCharacteristics.id === id
-    )[0].quantity = quantity < 4 ? quantity + 1 : quantity;
+    )[0].quantity = quantity < 5 ? quantity + 1 : quantity - 4;
 
 
     setCocktailIngredient([...tempIngredients]);
   };
 
-  const substractQuantityToIngredient = (id) => {
-    const tempIngredients = cocktailIngredients;
-    const quantity = tempIngredients.filter(
-      (c) => c.ingredientCharacteristics.id === id
-    )[0].quantity;
+  // const substractQuantityToIngredient = (id) => {
+  //   const tempIngredients = cocktailIngredients;
+  //   const quantity = tempIngredients.filter(
+  //     (c) => c.ingredientCharacteristics.id === id
+  //   )[0].quantity;
 
-    tempIngredients.filter(
-      (c) => c.ingredientCharacteristics.id === id
-    )[0].quantity = quantity > 1 ? quantity - 1 : quantity;
+  //   tempIngredients.filter(
+  //     (c) => c.ingredientCharacteristics.id === id
+  //   )[0].quantity = quantity > 1 ? quantity - 1 : quantity;
 
-    console.log(tempIngredients);
+  //   console.log(tempIngredients);
 
-    setCocktailIngredient([...tempIngredients]);
-  };
+  //   setCocktailIngredient([...tempIngredients]);
+  // };
 
   return (
     <View>
-      {cocktailIngredients.map((cocktailIngredient, i) => {
+      {cocktailIngredients.map((cocktailIngredient) => {
         return (
           <IngredientItem
             cocktailIngredients={cocktailIngredients}
             cocktailIngredient={cocktailIngredient}
-            key={i}
             setCocktailIngredient={setCocktailIngredient}
             addQuantityToIngredient={addQuantityToIngredient}
-            substractQuantityToIngredient={substractQuantityToIngredient}
+          // substractQuantityToIngredient={substractQuantityToIngredient}
           />
         );
       })}
@@ -343,14 +346,14 @@ const IngredientItem = ({
   cocktailIngredient,
   setCocktailIngredient,
   addQuantityToIngredient,
-  substractQuantityToIngredient,
+  // substractQuantityToIngredient,
 }) => {
   return (
     <IngredientContent
       cocktailIngredient={cocktailIngredient}
       setCocktailIngredient={setCocktailIngredient}
       addQuantityToIngredient={addQuantityToIngredient}
-      substractQuantityToIngredient={substractQuantityToIngredient}
+    // substractQuantityToIngredient={substractQuantityToIngredient}
     />
   );
 };
@@ -359,66 +362,80 @@ const IngredientContent = ({
   cocktailIngredient,
   setCocktailIngredient,
   addQuantityToIngredient,
-  substractQuantityToIngredient,
 }) => {
   return (
     <>
-      <View style={styles.IngredientOnList}>
-        <View style={{ flex: 1 }}>
-          <Pressable>
-            <QuantityIngredient
-              cocktailIngredient={cocktailIngredient}
-              ingredientImage={
-                cocktailIngredient.ingredientCharacteristics.ingredientType
-              }
-              addQuantityToIngredient={() =>
-                addQuantityToIngredient(
-                  cocktailIngredient.ingredientCharacteristics.id
-                )
-              }
-            />
-          </Pressable>
+      <Pressable style={styles.IngredientOnList}
+        onPress={() =>
+          addQuantityToIngredient(
+            cocktailIngredient.ingredientCharacteristics.id
+          )}>
+        <View>
+          <QuantityIngredient
+            cocktailIngredient={cocktailIngredient}
+            ingredientImage={
+              cocktailIngredient.ingredientCharacteristics.ingredientType
+            }
+          />
         </View>
-        <Pressable
-          onPress={() => {
-            substractQuantityToIngredient(
-              cocktailIngredient.ingredientCharacteristics.id
-            );
-          }}
-          style={styles.ingredientName}
-        >
-          <Text style={styles.Ingredient}>
-            {cocktailIngredient.ingredientCharacteristics.ingredientName}
-          </Text>
-        </Pressable>
-        <DeleteIngredientButton setCocktailIngredient={setCocktailIngredient} cocktailIngredient={cocktailIngredient} />
-      </View>
+        <View style={styles.ingredientContainer}>
+          <View
+            style={styles.ingredientName}
+          >
+            <Text style={styles.Ingredient}>
+              {cocktailIngredient.ingredientCharacteristics.ingredientName}
+            </Text>
+          </View>
+          <DeleteIngredientButton setCocktailIngredient={setCocktailIngredient} cocktailIngredient={cocktailIngredient} />
+        </View>
+      </Pressable >
+      <Pressable onPress={() =>
+        addQuantityToIngredient(
+          cocktailIngredient.ingredientCharacteristics.id
+        )
+      } style={styles.quantityContainer}>
+        <Text style={styles.quantityText}>{cocktailIngredient.ingredientCharacteristics.ingredientType === "shake"
+          ? "" : "Quantity:"}</Text>
+        {[...Array(cocktailIngredient.quantity)].map((_, i) => (
+          <View style={styles.quantityItem}>
+            <Image
+              key={i}
+              source={cocktailIngredient.ingredientCharacteristics.ingredientType === "ice"
+                ? ice
+                : cocktailIngredient.ingredientCharacteristics.ingredientType === "juice"
+                  ? juicePortion
+                  : cocktailIngredient.ingredientCharacteristics.ingredientType === "alcohol"
+                    ? alcoholPortion
+                    : cocktailIngredient.ingredientCharacteristics.ingredientType === "extra"
+                      ? extraPortion
+                      : null
+              }
+              style={styles.ImageIngredientQuantity}
+            />
+          </View>
+        ))}
+      </Pressable>
     </>
   );
 };
 
 const QuantityIngredient = ({
   ingredientImage,
-  addQuantityToIngredient,
   cocktailIngredient,
 }) => {
   useEffect(() => {
-    console.log("Cocktail ingredient quantity?: ", cocktailIngredient);
+    console.log("New ingredient added to cocktail: ", cocktailIngredient);
   }, [cocktailIngredient]);
 
   return (
-    <Pressable
-      onPress={addQuantityToIngredient}
+    <View
       style={styles.QuantityIngredient}
     >
-      {[...Array(cocktailIngredient.quantity)].map((_, i) => (
-        <Image
-          key={i}
-          source={ingredientImages[ingredientImage]}
-          style={styles.ImageIngredientQuantity}
-        />
-      ))}
-    </Pressable>
+      <Image
+        source={ingredientImages[ingredientImage]}
+        style={styles.imgIngredient}
+      />
+    </View>
   );
 };
 
@@ -443,7 +460,7 @@ const DeleteIngredientButton = ({
         });
       }}
     >
-      <Image source={errase} style={styles.ImageIngredientQuantity} />
+      <Image source={errase} style={styles.erraseIcon} />
     </Pressable>
   );
 };
@@ -593,16 +610,36 @@ const styles = StyleSheet.create({
   },
   ImageIngredientQuantity: {
     resizeMode: "contain",
+    width: 20,
+    height: 20,
+  },
+  imgIngredient: {
+    resizeMode: "contain",
+    width: 40,
+    height: 40,
+  },
+  erraseIcon: {
+    resizeMode: "contain",
     width: 30,
     height: 30,
+    marginLeft: 10,
   },
   IngredientOnList: {
     width: width / 1.1,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
     padding: 10,
     marginTop: 10,
+  },
+  ingredientContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  ingredientButton: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   ingredientName: {
     borderColor: "black",
@@ -640,6 +677,22 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 15,
     textAlign: "center",
+    fontFamily: "MedievalSharp",
+  },
+  quantityContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    // backgroundColor: "rgba(0, 255, 133, 0.19)",
+    borderRadius: 20,
+    padding: 5,
+    margin: 5,
+  },
+  quantityItem: {
+    // backgroundColor: "rgba(0, 0, 0, 0.6)",
+    marginLeft: 5,
+  },
+  quantityText: {
+    fontSize: 12,
     fontFamily: "MedievalSharp",
   },
 });

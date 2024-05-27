@@ -21,3 +21,4 @@ export const removeCachedData = (key) => {
   AsyncStorage.removeItem(key);
   cache.delete(key);
 };
+
