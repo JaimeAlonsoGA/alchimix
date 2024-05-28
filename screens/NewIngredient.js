@@ -136,7 +136,7 @@ const NewIngredient = ({ route }) => {
         style={styles.ImageBackground}
       >
         <View style={styles.backgroundColor}>
-          <View style={{ position: "absolute", top: '50%' }}>
+          <View style={{ position: "absolute", top: '50%' }}>   
             <Image
               source={mantel}
               style={{
@@ -346,11 +346,12 @@ const styles = StyleSheet.create({
   },
   buttons: {
     position: "absolute",
-    bottom: '8%',
+    bottom: '10%',
     width: width,
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
+    marginBottom: 45,
   },
   backButton: {
     backgroundColor: "rgba(161, 152, 152, 0.5)",

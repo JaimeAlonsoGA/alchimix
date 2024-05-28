@@ -38,10 +38,12 @@ const FooterApp = ({ typeIngredientSelected, saveCurrentCocktail, isEditing, del
 
   return (
     <View style={styles.footerContainer}>
-      <View style={[styles.footer, { 
+      <View style={[styles.footer, {
         paddingLeft: insets.left,
         paddingRight: insets.right,
-        paddingBottom: insets.bottom }]}>
+        paddingBottom: insets.bottom, 
+        bottom: insets.bottom,
+      }]}>
         <Pressable
           onPress={() => { navigation.navigate("Index"); setCurrentScreen("Index") }}>
           <Image source={cocktails} style={styles.Image} />
@@ -100,12 +102,13 @@ const styles = StyleSheet.create({
   footerContainer: {
     width: width,
     position: "absolute",
-    bottom: '8%',
+    bottom: '10%',
   },
   footer: {
     alignItems: "center",
     justifyContent: "space-evenly",
     flexDirection: "row",
+    marginBottom: 45,
   },
   Image: {
     borderColor: "black",
