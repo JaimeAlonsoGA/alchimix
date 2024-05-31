@@ -9,12 +9,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import wood from "../assets/media/wood.jpg";
 import FooterApp from "./Footer";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
-import { getCachedData, removeCachedData } from "../saveData";
 import { AppContext } from "../src/context/AppContext";
 
 const { width, height } = Dimensions.get("screen");
@@ -71,8 +70,8 @@ const CocktailItem = ({ cocktail, navigation }) => (
     onPress={() => navigation.navigate("Cocktail", { cocktail })}
   >
     <View style={styles.cocktailItem}>
-      <Text style={styles.text}>{cocktail.cocktailName}</Text>
       <Image source={cocktail.glass} style={styles.Image} />
+      <Text style={styles.text}>{cocktail.cocktailName}</Text>
     </View>
   </TouchableOpacity>
 );
@@ -95,7 +94,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    marginTop: 6,
+    top: 5,
+    position: "absolute",
     color: "white",
     fontSize: 30,
     textAlign: "center",
@@ -113,12 +113,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "column",
     borderRadius: 20,
+    justifyContent: "center",
   },
   Image: {
-    marginTop: 28,
+    // marginTop: 28,
     resizeMode: "contain",
     width: 100,
     height: 200,
-    position: "absolute",
+    // position: "absolute",
+    // opacity: 0.9,
   },
 });

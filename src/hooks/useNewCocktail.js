@@ -33,22 +33,16 @@ export const useNewCocktail = (
     };
 
     const index = cocktails.findIndex((item) => item.id === cocktail.id);
-    const tempCocktails = cocktails;
+    const tempCocktails = [...cocktails];
 
     if (index !== -1) {
       tempCocktails[index] = cocktail;
     } else {
-      tempCocktails.push(cocktail);
+      tempCocktails.unshift(cocktail);
     }
 
-    // const ingredients = parsedIngredients
-    //   ? [...parsedIngredients, ingredient]
-    //   : [ingredient];
-
-    //si hay datos, añadir el nuevo coche, si no, crear array con el nuevo coche
     await setCachedData("cocktails", JSON.stringify(tempCocktails));
     setCocktails([...tempCocktails]);
-    //guardar datos en cache
   };
 
   const deleteCurrentCocktail = async () => {

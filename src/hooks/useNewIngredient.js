@@ -30,12 +30,12 @@ export const useNewIngredient = (
     };
 
     const index = ingredients.findIndex((item) => item.id === ingredient.id);
-    const tempIngredients = ingredients;
+    const tempIngredients = [...ingredients];
 
     if (index !== -1) {
       tempIngredients[index] = ingredient;
     } else {
-      tempIngredients.push(ingredient);
+      tempIngredients.unshift(ingredient);
     }
 
     // const ingredients = parsedIngredients

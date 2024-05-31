@@ -154,7 +154,7 @@ const NewIngredient = ({ route }) => {
               setPressed={setPressed}
               handlePress={handlePress}
             />
-            <View style={{ height: height * 0.8 }}>
+            <View style={{ height: height * 1 }}>
               <FormFieldName
                 valueName={ingredientName}
                 text={text}
@@ -346,12 +346,12 @@ const styles = StyleSheet.create({
   },
   buttons: {
     position: "absolute",
-    bottom: '10%',
+    bottom: '9%',
     width: width,
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
-    marginBottom: 45,
+    // marginBottom: 45,
   },
   backButton: {
     backgroundColor: "rgba(161, 152, 152, 0.5)",

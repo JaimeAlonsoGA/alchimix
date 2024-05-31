@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-evenly",
     flexDirection: "row",
-    marginBottom: 45,
+    // marginBottom: 30,
   },
   Image: {
     borderColor: "black",

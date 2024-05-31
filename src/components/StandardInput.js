@@ -1,6 +1,5 @@
 import { Dimensions, StyleSheet, Text, TextInput } from "react-native";
 import React from "react";
-import { useFonts } from "expo-font";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -10,6 +9,7 @@ export const StandardInputForm = ({ value, ...props }) => {
       value={value}
       {...props}
       placeholder="Name"
+      maxLength={35}
       style={styles.CocktailName}
     />
   );
@@ -34,6 +34,7 @@ export const StandardInputAlcohol = (props) => {
       inputMode="decimal"
       {...props}
       placeholder="Alcohol %"
+      maxLength={3}
       style={[
         styles.CocktailAlcohol,
         styles.textInput,

@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     height: height,
   },
   backgroundColor: {
-    backgroundColor: "rgba(92, 65, 50, 0.7)",
+    backgroundColor: "rgba(92, 65, 50, 0.s7)",
     width: width,
     height: height,
     alignItems: "center",

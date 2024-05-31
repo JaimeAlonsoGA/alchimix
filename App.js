@@ -8,6 +8,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { AppContextProvider } from "./src/context/AppContext";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "react-native";
+import { setStatusBarStyle } from "expo-status-bar";
 
 const Stack = createStackNavigator();
 
@@ -23,6 +25,7 @@ export default function App() {
           <Stack.Screen name="Cocktail" component={Cocktail} />
         </Stack.Navigator>
       </NavigationContainer>
+      <StatusBar backgroundColor='black' barStyle='light-content'/>
     </AppContextProvider>
   );
 }

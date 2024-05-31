@@ -284,6 +284,6 @@ const styles = StyleSheet.create({
   IngredientList: {
     width: width / 1.1,
     alignItems: "center",
-    height: 450,
+    height: 400,
   },
 });
