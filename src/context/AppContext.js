@@ -3,12 +3,22 @@ import { getCachedData, removeCachedData } from "../../saveData";
 import { defaultCocktails, defaultIngredients } from "../defaultData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import english from "../language/english";
+import spanish from "../language/spanish";
+
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
   const [cocktails, setCocktails] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [currentScreen, setCurrentScreen] = useState("");
+  const [appLanguage, setAppLanguage] = useState("");
+  const [contentLanguage, setContentLanguage] = useState({});
+
+  useEffect(() => {
+   setContentLanguage(appLanguage === "spanish" ? spanish : english);  
+   console.log("Current language: ", appLanguage);
+  }, [appLanguage])
 
   useEffect(() => {
     console.log(currentScreen);
@@ -49,7 +59,12 @@ export const AppContextProvider = ({ children }) => {
   }, [ingredients]);
 
   return (
-    <AppContext.Provider value={{ cocktails, setCocktails, ingredients, setIngredients, currentScreen, setCurrentScreen }}>
+    <AppContext.Provider value={{ 
+      cocktails, setCocktails, 
+      ingredients, setIngredients, 
+      currentScreen, setCurrentScreen, 
+      setAppLanguage, contentLanguage 
+      }}>
       {children}
     </AppContext.Provider>
   );

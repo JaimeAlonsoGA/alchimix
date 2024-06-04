@@ -233,54 +233,54 @@ export const defaultCocktails = [
     //     glass: 19,
     //     id: "cac7d3a6-30d1-46a5-a32e-82691f6da2a3"
     // },
-    {
-        cocktailIngredients: [
-            {
-                ingredientCharacteristics: {
-                    alcoholStrength: 40,
-                    description: "Rum is a distilled alcoholic drink made from sugarcane",
-                    id: "b82c6c76-1e7d-402a-a6df-a444a96c7630",
-                    ingredientName: "Rum",
-                    ingredientType: "alcohol"
-                },
-                quantity: 1
-            },
-            {
-                ingredientCharacteristics: {
-                    alcoholStrength: null,
-                    description: "Apple juice freshly squeezed with love",
-                    id: "k8f5e7f1-8d4d-4e7d-9c6f-6d1b6a6d8b1e",
-                    ingredientName: "Apple Juice",
-                    ingredientType: "juice"
-                },
-                quantity: 3
-            },
-            {
-                ingredientCharacteristics: {
-                    alcoholStrength: null,
-                    description: "Let the cocktail filter its way through it",
-                    id: "u8f5e7f1-8d4d-4e7d-9c6f-6d1b6a6d8b1e",
-                    ingredientName: "Crushed Ice",
-                    ingredientType: "ice"
-                },
-                quantity: 2
-            },
-            {
-                ingredientCharacteristics: {
-                    alcoholStrength: null,
-                    description: "Quick stir with a stick!",
-                    id: "w8f5e7f1-8d4d-4e7d-9c6f-6d1b6a6d8b1e",
-                    ingredientName: "Stir Stick",
-                    ingredientType: "shake"
-                },
-                quantity: 1
-            }
-        ],
-        cocktailName: "Apple Fantasy",
-        description: "The freshness of the apple combined with the woody good old rum, what a fantasy 🍎! The perfect choice for juicy conversations and long sunsets",
-        glass: 21,
-        id: "ce80718a-187a-4f99-94cc-e16647bc947f"
-    },
+    // {
+    //     cocktailIngredients: [
+    //         {
+    //             ingredientCharacteristics: {
+    //                 alcoholStrength: 40,
+    //                 description: "Rum is a distilled alcoholic drink made from sugarcane",
+    //                 id: "b82c6c76-1e7d-402a-a6df-a444a96c7630",
+    //                 ingredientName: "Rum",
+    //                 ingredientType: "alcohol"
+    //             },
+    //             quantity: 1
+    //         },
+    //         {
+    //             ingredientCharacteristics: {
+    //                 alcoholStrength: null,
+    //                 description: "Apple juice freshly squeezed with love",
+    //                 id: "k8f5e7f1-8d4d-4e7d-9c6f-6d1b6a6d8b1e",
+    //                 ingredientName: "Apple Juice",
+    //                 ingredientType: "juice"
+    //             },
+    //             quantity: 3
+    //         },
+    //         {
+    //             ingredientCharacteristics: {
+    //                 alcoholStrength: null,
+    //                 description: "Let the cocktail filter its way through it",
+    //                 id: "u8f5e7f1-8d4d-4e7d-9c6f-6d1b6a6d8b1e",
+    //                 ingredientName: "Crushed Ice",
+    //                 ingredientType: "ice"
+    //             },
+    //             quantity: 2
+    //         },
+    //         {
+    //             ingredientCharacteristics: {
+    //                 alcoholStrength: null,
+    //                 description: "Quick stir with a stick!",
+    //                 id: "w8f5e7f1-8d4d-4e7d-9c6f-6d1b6a6d8b1e",
+    //                 ingredientName: "Stir Stick",
+    //                 ingredientType: "shake"
+    //             },
+    //             quantity: 1
+    //         }
+    //     ],
+    //     cocktailName: "Apple Fantasy",
+    //     description: "The freshness of the apple combined with the woody good old rum, what a fantasy 🍎! The perfect choice for juicy conversations and long sunsets",
+    //     glass: 21,
+    //     id: "ce80718a-187a-4f99-94cc-e16647bc947f"
+    // },
 
     // {
     //     cocktailIngredients: [

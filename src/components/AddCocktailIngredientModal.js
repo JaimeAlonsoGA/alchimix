@@ -153,6 +153,7 @@ const IngredientItem = ({
 );
 
 const CloseModal = ({ setModalOpen, handlePress, selectedType }) => {
+  const { contentLanguage } = useContext(AppContext);
   return (
     <Pressable
       onPress={() => {
@@ -162,7 +163,7 @@ const CloseModal = ({ setModalOpen, handlePress, selectedType }) => {
       style={[styles.button, { justifyContent: "center", alignItems: "center" }]}
     >
       <View style={styles.backButton}>
-        <Text style={styles.text}>BACK</Text>
+        <Text style={styles.text}>{contentLanguage.backButton}</Text>
       </View>
     </Pressable>
   );
@@ -250,7 +251,7 @@ const styles = StyleSheet.create({
   backButton: {
     backgroundColor: "rgba(190, 190, 190, 0.6)",
     height: 60,
-    width: 60,
+    minWidth: 60,
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",

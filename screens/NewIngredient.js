@@ -8,7 +8,7 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import wood from "../assets/media/wood.jpg";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
@@ -32,10 +32,12 @@ import {
   StandardInputForm,
 } from "../src/components/StandardInput";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { AppContext } from "../src/context/AppContext";
 
 const { width, height } = Dimensions.get("screen");
 
 const NewIngredient = ({ route }) => {
+  const { contentLanguage } = useContext(AppContext);
   const {
     valueDescription = "",
     valueName = "",
@@ -117,15 +119,15 @@ const NewIngredient = ({ route }) => {
 
   let text;
   if (pressed.alcohol) {
-    text = "Licor Name*";
+    text = contentLanguage.liquor;
   } else if (pressed.extra) {
-    text = "Spice Name*";
+    text = contentLanguage.spice;
   } else if (pressed.ice) {
-    text = "Ice Type*";
+    text = contentLanguage.ice;
   } else if (pressed.juice) {
-    text = "Juice Name*";
+    text = contentLanguage.juice;
   } else if (pressed.shake) {
-    text = "Shake Technique*";
+    text = contentLanguage.shake;
   }
 
   return (
@@ -163,14 +165,14 @@ const NewIngredient = ({ route }) => {
               />
               {pressed.alcohol && (
                 <FormFieldAlcohol
-                  text={"Alcohol Strength"}
+                  text={contentLanguage.alcoholStrength}
                   setter={setAlcoholStrength}
                   valueAlcohol={alcoholStrength}
                   StandardInputAlcohol={StandardInputAlcohol}
                 />
               )}
               <FormFieldDescription
-                text={"Description"}
+                text={contentLanguage.ingredientDescription}
                 setter={setDescription}
                 valueDescription={description}
                 StandardInputDescription={StandardInputDescription}
@@ -206,25 +208,28 @@ const NewIngredient = ({ route }) => {
 };
 
 const SaveButton = ({ saveCurrentIngredient }) => {
+  const { contentLanguage } = useContext(AppContext);
   return (
     <Pressable onPress={saveCurrentIngredient} style={styles.SaveButton}>
-      <Text style={styles.text}>SAVE</Text>
+      <Text style={styles.text}>{contentLanguage.saveButton}</Text>
     </Pressable>
   );
 };
 
 const DeleteButton = ({ deleteCurrentIngredient }) => {
+  const { contentLanguage } = useContext(AppContext);
   return (
     <Pressable onPress={deleteCurrentIngredient} style={styles.DeleteButton}>
-      <Text style={styles.text}>DELETE</Text>
+      <Text style={styles.text}>{contentLanguage.DeleteButton}</Text>
     </Pressable>
   );
 };
 
 const CloseButton = ({ goBack }) => {
+  const { contentLanguage } = useContext(AppContext);
   return (
     <Pressable onPress={goBack} style={styles.backButton}>
-      <Text style={styles.text}>BACK</Text>
+      <Text style={styles.text}>{contentLanguage.backButton}</Text>
     </Pressable>
   );
 };
@@ -317,7 +322,6 @@ const styles = StyleSheet.create({
   },
   SaveButton: {
     backgroundColor: "rgba(0, 255, 133, 0.3)",
-    width: 60,
     height: 60,
     borderRadius: 10,
     justifyContent: "center",
@@ -346,7 +350,7 @@ const styles = StyleSheet.create({
   },
   buttons: {
     position: "absolute",
-    bottom: '9%',
+    bottom: '12%',
     width: width,
     flexDirection: "row",
     justifyContent: "space-evenly",
@@ -356,7 +360,6 @@ const styles = StyleSheet.create({
   backButton: {
     backgroundColor: "rgba(161, 152, 152, 0.5)",
     height: 60,
-    width: 60,
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",

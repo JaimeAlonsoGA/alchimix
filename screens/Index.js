@@ -9,14 +9,22 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import wood from "../assets/media/wood.jpg";
 import FooterApp from "./Footer";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
 import { AppContext } from "../src/context/AppContext";
 
+import english from "../assets/english.png";
+import spanish from "../assets/spanish.png";
+
 const { width, height } = Dimensions.get("screen");
+
+const languages = [
+  { img: english, id: "english" },
+  { img: spanish, id: "spanish" },
+];
 
 const Index = () => {
   const navigation = useNavigation();
@@ -46,12 +54,43 @@ const Index = () => {
         style={styles.ImageBackground}
       >
         <View style={styles.backgroundColor}>
+          <Language />
           <CocktailList navigation={navigation} />
           <FooterApp />
         </View>
       </ImageBackground>
     </View>
   );
+};
+
+const Language = () => {
+  const {setAppLanguage} = useContext(AppContext);
+  const [isSelected, setIsSelected] = useState({
+    english: false,
+    spanish: false,
+  });
+
+  const handlePress = (language) => {
+    setIsSelected({
+      english: false,
+      spanish: false,
+      [language]: true,
+    });
+    return language;
+  }
+
+  return (
+    <View style={styles.language}>
+      {languages.map((language, i) => (
+        <TouchableOpacity key={i} onPress={() => {
+          handlePress(language.id);
+          setAppLanguage(language.id);
+          }}>
+          <Image source={language.img} style={[styles.languageButton, isSelected[language.id] ? { opacity: 0.8 } : { opacity: 0.2 }]} />
+        </TouchableOpacity>
+      ))}
+    </View>
+  )
 };
 
 const CocktailList = ({ navigation }) => {
@@ -92,6 +131,19 @@ const styles = StyleSheet.create({
     width: width,
     height: height,
     alignItems: "center",
+  },
+  language: {
+    width: width,
+    height: 20,
+    flexDirection: 'column',
+    position: 'absolute',
+    top: 10,
+  },
+  languageButton: {
+    resizeMode: "contain",
+    width: 20,
+    height: 20,
+    margin: 10,
   },
   text: {
     top: 5,

@@ -38,14 +38,8 @@ export const useNewIngredient = (
       tempIngredients.unshift(ingredient);
     }
 
-    // const ingredients = parsedIngredients
-    //   ? [...parsedIngredients, ingredient]
-    //   : [ingredient];
-
-    //si hay datos, añadir el nuevo coche, si no, crear array con el nuevo coche
     await setCachedData("ingredients", JSON.stringify(tempIngredients));
     setIngredients([...tempIngredients]);
-    //guardar datos en cache
   };
 
   const deleteCurrentIngredient = async () => {

@@ -11,7 +11,7 @@ import {
 import { useFonts } from "expo-font";
 import { ingredientImages } from "./newCocktail";
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import ice from "../assets/media/ice.png";
 import wood from "../assets/media/wood.jpg";
@@ -21,6 +21,7 @@ import DescriptionModal from "../src/components/DescriptionModal";
 import alcoholPortion from "../assets/media/alcohol.png";
 import juicePortion from "../assets/media/juice.png";
 import extraPortion from "../assets/media/extra.png";
+import { AppContext } from "../src/context/AppContext";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -132,6 +133,7 @@ const IngredientItem = ({
   setIsModalOpen,
   setIngredientSelected,
 }) => {
+  const { contentLanguage } = useContext(AppContext);
   return (
     <View>
       <Pressable
@@ -153,7 +155,7 @@ const IngredientItem = ({
       </Pressable>
       <View style={styles.quantityContainer}>
         <Text style={styles.quantityText}>{ingredient.ingredientCharacteristics.ingredientType === "shake"
-          ? "" : "Quantity:"}</Text>
+          ? "" : contentLanguage.quantity + ":"}</Text>
         {[...Array(ingredient.quantity)].map((_, i) => (
           <View key={i} style={styles.quantityItem}>
             <Image

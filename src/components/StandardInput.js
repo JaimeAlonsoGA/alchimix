@@ -1,14 +1,16 @@
 import { Dimensions, StyleSheet, Text, TextInput } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext } from "../context/AppContext";
 
 const { width, height } = Dimensions.get("screen");
 
 export const StandardInputForm = ({ value, ...props }) => {
+  const { contentLanguage } = useContext(AppContext);
   return (
     <TextInput
       value={value}
       {...props}
-      placeholder="Name"
+      placeholder={contentLanguage.name}
       maxLength={35}
       style={styles.CocktailName}
     />
@@ -16,13 +18,14 @@ export const StandardInputForm = ({ value, ...props }) => {
 };
 
 export const StandardInputDescription = ({ value, ...props }) => {
+  const { contentLanguage } = useContext(AppContext);
   return (
     <TextInput
       multiline
       numberOfLines={20}
       value={value}
       {...props}
-      placeholder="Add here a description..."
+      placeholder={contentLanguage.description}
       style={[styles.CocktailDescription, styles.textInput, { height: 150 }]}
     />
   );

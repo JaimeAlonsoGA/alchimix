@@ -89,9 +89,10 @@ const FooterApp = ({ typeIngredientSelected, saveCurrentCocktail, isEditing, del
 };
 
 const DeleteButton = ({ deleteCocktail }) => {
+  const { contentLanguage } = useContext(AppContext);
   return (
     <Pressable onPress={deleteCocktail} style={styles.DeleteButton}>
-      <Text style={styles.text}>DELETE</Text>
+      <Text style={styles.text}>{contentLanguage.deleteButton}</Text>
     </Pressable>
   );
 };
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
   footerContainer: {
     width: width,
     position: "absolute",
-    bottom: '10%',
+    bottom: '12%',
   },
   footer: {
     alignItems: "center",
@@ -121,6 +122,7 @@ const styles = StyleSheet.create({
   },
   DeleteButton: {
     backgroundColor: "rgba(255, 21, 21, 0.3)",
+    minWidth: 60,
     height: 60,
     borderRadius: 10,
     justifyContent: "center",
