@@ -220,7 +220,7 @@ const DeleteButton = ({ deleteCurrentIngredient }) => {
   const { contentLanguage } = useContext(AppContext);
   return (
     <Pressable onPress={deleteCurrentIngredient} style={styles.DeleteButton}>
-      <Text style={styles.text}>{contentLanguage.DeleteButton}</Text>
+      <Text style={styles.text}>{contentLanguage.deleteButton}</Text>
     </Pressable>
   );
 };
@@ -322,6 +322,7 @@ const styles = StyleSheet.create({
   },
   SaveButton: {
     backgroundColor: "rgba(0, 255, 133, 0.3)",
+    minWidth: 60,
     height: 60,
     borderRadius: 10,
     justifyContent: "center",
@@ -333,6 +334,7 @@ const styles = StyleSheet.create({
   },
   DeleteButton: {
     backgroundColor: "rgba(255, 21, 21, 0.3)",
+    minWidth: 60,
     height: 60,
     borderRadius: 10,
     justifyContent: "center",
@@ -359,6 +361,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     backgroundColor: "rgba(161, 152, 152, 0.5)",
+    minWidth: 60,
     height: 60,
     borderRadius: 10,
     justifyContent: "center",

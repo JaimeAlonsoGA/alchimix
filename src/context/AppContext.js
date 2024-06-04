@@ -12,18 +12,17 @@ export const AppContextProvider = ({ children }) => {
   const [cocktails, setCocktails] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [currentScreen, setCurrentScreen] = useState("");
-  const [appLanguage, setAppLanguage] = useState("");
-  const [contentLanguage, setContentLanguage] = useState({});
+  const [appLanguage, setAppLanguage] = useState("spanish");
+  const [contentLanguage, setContentLanguage] = useState(spanish);
 
   useEffect(() => {
-   setContentLanguage(appLanguage === "spanish" ? spanish : english);  
-   console.log("Current language: ", appLanguage);
+    setContentLanguage(appLanguage === "spanish" ? spanish : english);
+    console.log("Current language: ", appLanguage);
   }, [appLanguage])
 
   useEffect(() => {
     console.log(currentScreen);
-  }
-    , [currentScreen]);
+  }, [currentScreen]);
 
   useEffect(() => {
     getCachedData("cocktails").then((data) => {
@@ -59,12 +58,12 @@ export const AppContextProvider = ({ children }) => {
   }, [ingredients]);
 
   return (
-    <AppContext.Provider value={{ 
-      cocktails, setCocktails, 
-      ingredients, setIngredients, 
-      currentScreen, setCurrentScreen, 
-      setAppLanguage, contentLanguage 
-      }}>
+    <AppContext.Provider value={{
+      cocktails, setCocktails,
+      ingredients, setIngredients,
+      currentScreen, setCurrentScreen,
+      setAppLanguage, contentLanguage
+    }}>
       {children}
     </AppContext.Provider>
   );

@@ -190,9 +190,10 @@ const QuantityIngredient = ({ ingredientImage }) => {
 };
 
 const CloseButton = ({ goBack }) => {
+  const { contentLanguage } = useContext(AppContext);
   return (
     <Pressable onPress={goBack} style={styles.backButton}>
-      <Text style={styles.textButton}>BACK</Text>
+      <Text style={styles.textButton}>{contentLanguage.backButton}</Text>
     </Pressable>
   );
 };
@@ -328,7 +329,7 @@ const styles = StyleSheet.create({
   backButton: {
     backgroundColor: "rgba(161, 152, 152, 0.5)",
     height: 60,
-    width: 60,
+    minWidth: 60,
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",

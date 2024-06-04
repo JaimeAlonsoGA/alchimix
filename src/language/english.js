@@ -2,7 +2,7 @@ const english = {
     
     backButton: "BACK",
     saveButton: "SAVE",
-    deleteButton: "DELTE",
+    deleteButton: "DELETE",
     addButton: "ADD",
     name: "Name",
     description: "Add here a description...",

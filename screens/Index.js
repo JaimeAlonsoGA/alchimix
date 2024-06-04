@@ -22,8 +22,8 @@ import spanish from "../assets/spanish.png";
 const { width, height } = Dimensions.get("screen");
 
 const languages = [
-  { img: english, id: "english" },
   { img: spanish, id: "spanish" },
+  { img: english, id: "english" },
 ];
 
 const Index = () => {
@@ -67,7 +67,7 @@ const Language = () => {
   const {setAppLanguage} = useContext(AppContext);
   const [isSelected, setIsSelected] = useState({
     english: false,
-    spanish: false,
+    spanish: true,
   });
 
   const handlePress = (language) => {
