@@ -2,14 +2,14 @@
   "expo": {
     "name": "Alchimix",
     "slug": "coctelapp",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#CC5C4132"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -19,11 +19,11 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/favicon.png",
-        "backgroundColor": "#CC5C4132"
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
       },
       "package": "com.sonicode.coctelapp",
-      "versionCode": 6
+      "versionCode": 7
     },
     "plugins": [
       "expo-font"
